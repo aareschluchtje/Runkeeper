@@ -37,7 +37,6 @@
             <TextBlock RelativePanel.RightOf="RunButton" FontSize="28" Margin="10,0,0,0" Name="PageTitle" x:Uid="PageTitleDefault"/>
         </RelativePanel>
 
-        <!-- http://stackoverflow.com/questions/32108362/uwp-swipe-to-open-splitview-pane-->
         <SplitView Grid.Row="1" Name="RunView" DisplayMode="Overlay" OpenPaneLength="300">
             <SplitView.Pane>
                 <StackPanel Name="MySplitviewPane"   VerticalAlignment="Stretch"
