@@ -25,6 +25,55 @@ namespace Runkeeper
         public MainPage()
         {
             this.InitializeComponent();
+         
+            RouteScreen.IsSelected = true;
+            Myframe.Navigate(typeof(MapPage));
+            PageTitle.Text = "Route";
+        }
+
+        private void RunButton_Click(object sender, RoutedEventArgs e)
+        {
+            RunView.IsPaneOpen = !RunView.IsPaneOpen;
+        }
+
+        private void RunList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RouteScreen.IsSelected)
+            {
+                Myframe.Navigate(typeof(MapPage));
+                PageTitle.Text = "Route";
+            }
+            if (Grafiek.IsSelected)
+            {
+                Myframe.Navigate(typeof(DataPage));
+                PageTitle.Text = "graphics";
+            }
+            if (Groups.IsSelected)
+            {
+                Myframe.Navigate(typeof(GroupsPage));
+                PageTitle.Text = "add-Groups";
+            }
+            if (Settings.IsSelected)
+            {
+                Myframe.Navigate(typeof(SettingsPage));
+                PageTitle.Text = "Settings";
+            }
+            if (Help.IsSelected)
+            {
+                Myframe.Navigate(typeof(HelpPage));
+                PageTitle.Text = "Help";
+            }
+        }
+
+        private void MySplitviewPane_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+
+        }
+
+    
+        private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+
         }
     }
 }
