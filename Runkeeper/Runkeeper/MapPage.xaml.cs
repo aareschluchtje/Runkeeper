@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Devices.Geolocation;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +27,23 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
+            GetPosition();
+        }
+
+        public async static Task<Geoposition> GetPosition()
+        {
+            var accesStatus = await Geolocator.RequestAccessAsync();
+
+            if (accesStatus != GeolocationAccessStatus.Allowed)
+            {
+                throw new Exception();
+            }
+
+            var geolocator = new Geolocator { DesiredAccuracyInMeters = 0 };
+
+            var position = await geolocator.GetGeopositionAsync();
+
+            return position;
         }
     }
 }

@@ -40,6 +40,7 @@ namespace Runkeeper
                     RouteScreen.IsSelected = true;
                 }
             };
+            RunView.Content = frame;
         }
 
         private void RunButton_Click(object sender, RoutedEventArgs e)
