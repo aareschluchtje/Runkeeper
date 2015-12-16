@@ -23,24 +23,26 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        Frame frame;
-        public MainPage(Frame frame)
+
+        public MainPage()
         {
             this.InitializeComponent();
-            this.frame = frame;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            Frame.Navigate(typeof(MapPage));
+            RouteScreen.IsSelected = true;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = Frame.CanGoBack ?
+              AppViewBackButtonVisibility.Visible :
+              AppViewBackButtonVisibility.Collapsed;
+        }
 
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
-            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (Frame.CanGoBack)
             {
-                if (frame.CanGoBack)
-                {
-                    frame.GoBack();
-                    e.Handled = true;
-                    RouteScreen.IsSelected = true;
-                }
-            };
-            RunView.Content = frame;
+                e.Handled = true;
+                Frame.GoBack();
+            }
         }
 
         private void RunButton_Click(object sender, RoutedEventArgs e)
@@ -50,30 +52,26 @@ namespace Runkeeper
 
         private void RunList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RunView.IsPaneOpen = false;
             if (RouteScreen.IsSelected)
             {
-                frame.Navigate(typeof(MapPage));
-                PageTitle.Text = "Route";
+                Frame.Navigate(typeof(MapPage));
             }
             if (Grafiek.IsSelected)
             {
-                frame.Navigate(typeof(DataPage));
-                PageTitle.Text = "graphics";
+                Frame.Navigate(typeof(DataPage));
             }
             if (Groups.IsSelected)
             {
-                frame.Navigate(typeof(GroupsPage));
-                PageTitle.Text = "add-Groups";
+                Frame.Navigate(typeof(GroupsPage));
             }
             if (Settings.IsSelected)
             {
-                frame.Navigate(typeof(SettingsPage));
-                PageTitle.Text = "Settings";
+                Frame.Navigate(typeof(SettingsPage));
             }
             if (Help.IsSelected)
             {
-                frame.Navigate(typeof(HelpPage));
-                PageTitle.Text = "Help";
+                Frame.Navigate(typeof(HelpPage));
             }
         }
 

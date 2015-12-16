@@ -87,12 +87,16 @@
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <Grid ManipulationMode="TranslateX"
+                <Grid>
+                    <Frame Name="Frame"/>
+
+                    <Grid ManipulationMode="TranslateX"
                           ManipulationCompleted="Grid_ManipulationCompleted"
-                          Width="150"
+                          Width="10"
                           Background="Transparent"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Stretch">
+                    </Grid>
                 </Grid>
             </SplitView.Content>
         </SplitView>
