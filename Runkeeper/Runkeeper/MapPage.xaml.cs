@@ -32,10 +32,10 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            currentLocation();
+            startTracking();
         }
 
-        public async static Task<Geoposition> GetPosition()
+        public async Task<Geoposition> GetPosition()
         {
             var accesStatus = await Geolocator.RequestAccessAsync();
 
@@ -43,16 +43,28 @@ namespace Runkeeper
             {
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
-            var geolocator = new Geolocator { DesiredAccuracyInMeters = 0 , ReportInterval = 1000};
-
+            var geolocator = new Geolocator { DesiredAccuracyInMeters = 0 , MovementThreshold = 1};
+            geolocator.PositionChanged += Geolocator_PositionChanged;
             var position = await geolocator.GetGeopositionAsync();
 
             return position;
         }
 
-        private async void currentLocation()
+        private async void startTracking()
         {
-            Geoposition position = await GetPosition();
+            Geoposition x = await GetPosition();
+        }
+
+        async private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                currentLocation(args.Position);
+            });
+        }
+
+        private async void currentLocation(Geoposition position)
+        {
             MapControl1.Center = position.Coordinate.Point;
             MapControl1.ZoomLevel = 16;
             MapIcon runner = new MapIcon();
