@@ -50,5 +50,9 @@
             <Button Width="130" Height="50" x:Name="Route" Content="Route" Click="Route_Click"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="2" Grid.Column="6" Background="White" VerticalAlignment="Center">
+            <Button Width="50" Height="50" FontFamily="Segoe MDL2 Assets"  x:Name="GetOwnLocation" Content="&#xE1D2;" FontSize="32" Click="GetOwnLocation_Click"/>
+        </StackPanel>
+
     </Grid>
 </Page>

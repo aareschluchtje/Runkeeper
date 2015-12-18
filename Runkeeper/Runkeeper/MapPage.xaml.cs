@@ -77,7 +77,7 @@ namespace Runkeeper
             this.runner = new MapIcon();
             runner.Location = position.Coordinate.Point;
             runner.Title = "I am here";
-
+            runner.ZIndex = 3;
             if(walkedRoute==null)
             {
                 walkedRoute = new List<Geopoint>();
@@ -151,12 +151,17 @@ namespace Runkeeper
 
         private void Activiteiten_Click(object sender, RoutedEventArgs e)
         {
-            startTracking();
+            
         }
 
         private async void Route_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(from,to));
+        }
+
+        private void GetOwnLocation_Click(object sender, RoutedEventArgs e)
+        {
+            startTracking();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
