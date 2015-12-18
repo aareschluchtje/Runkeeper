@@ -81,12 +81,11 @@ namespace Runkeeper
             this.runner = new MapIcon();
             runner.Location = position.Coordinate.Point;
             runner.Title = "I am here";
-<<<<<<< HEAD
+
             runner.ZIndex = 3;
-=======
+
             waypoints.Add(runner.Location);
 
->>>>>>> origin/master
             if(walkedRoute==null)
             {
                 walkedRoute = new List<Geopoint>();
