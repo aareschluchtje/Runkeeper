@@ -28,7 +28,7 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-            Frame.Navigate(typeof(MapPage));
+            Frame.Navigate(typeof(MapPage), new Tuple<string,string,string>("mainpage",null,null));
             RouteScreen.IsSelected = true;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = Frame.CanGoBack ?
               AppViewBackButtonVisibility.Visible :
@@ -55,7 +55,7 @@ namespace Runkeeper
             RunView.IsPaneOpen = false;
             if (RouteScreen.IsSelected)
             {
-                Frame.Navigate(typeof(MapPage));
+                Frame.Navigate(typeof(MapPage), new Tuple<string, string, string>("mainpage", null, null));
             }
             if (Grafiek.IsSelected)
             {

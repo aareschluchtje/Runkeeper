@@ -33,11 +33,13 @@ namespace Runkeeper
         private List<Geopoint> walkedRoute;
         private MapIcon runner;
         private MapPolyline line;
-
+        public MapControl mapcontrol;
+        public string from, to;
+  
         public MapPage()
         {
             this.InitializeComponent();
-         
+            this.mapcontrol = MapControl1;
         }
         
         public async Task<Geoposition> GetPosition()
@@ -94,12 +96,38 @@ namespace Runkeeper
                 MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(walkedRoute);
                 MapRoute b = e.Route;
                 MapControl1.MapElements.Clear();
-                MapControl1.MapElements.Add(runner);
                 if(line != null)
                 {
                     MapControl1.MapElements.Add(line);
                 }
+                MapControl1.MapElements.Add(runner);
             }
+        }
+
+        public async void FromToRoute(string from, string to)
+        {
+            this.from = from;
+            this.to = to;
+
+            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
+            MapLocation from1 = result.Locations.First();
+
+            result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
+
+            MapLocation to1 = result.Locations.First();
+            MapRouteFinderResult routeresult = await MapRouteFinder.GetWalkingRouteAsync(from1.Point, to1.Point);
+
+            MapRoute map1 = routeresult.Route;
+
+            var color = Colors.Red;
+            this.line = new MapPolyline
+            {
+                StrokeThickness = 11,
+                StrokeColor = color,
+                StrokeDashed = false,
+                ZIndex = 2
+            };
+            line.Path = new Geopath(map1.Path.Positions);
         }
 
         public static async Task<MapLocation> FindLocation(string location, Geopoint reference)
@@ -128,28 +156,16 @@ namespace Runkeeper
 
         private async void Route_Click(object sender, RoutedEventArgs e)
         {
-            const string from = "Lovensdijkstraat, Breda";
-            const string to = "nieuwe Inslag";
+            Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(from,to));
+        }
 
-            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
-            MapLocation from1 = result.Locations.First();
-
-            result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
-
-            MapLocation to1 = result.Locations.First();
-            MapRouteFinderResult routeresult = await MapRouteFinder.GetWalkingRouteAsync(from1.Point,to1.Point);
-
-            MapRoute map1 = routeresult.Route;
-
-            var color = Colors.Red;
-            this.line = new MapPolyline
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var value = (Tuple<string, string,string>)e.Parameter;
+            if(value.Item1.Equals("createroute"))
             {
-                StrokeThickness = 11,
-                StrokeColor = color,
-                StrokeDashed = false,
-                ZIndex = 2
-            };
-            line.Path = new Geopath(map1.Path.Positions);
+                FromToRoute(value.Item2, value.Item3);
+            }
         }
     }
 }

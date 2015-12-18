@@ -30,12 +30,12 @@
         </Grid.ColumnDefinitions>
 
         <Maps:MapControl
-            x:Name="MapControl1"
-            Grid.RowSpan="7"
-            Grid.ColumnSpan="7"
-            ZoomInteractionMode="GestureAndControl"
-            TiltInteractionMode="GestureAndControl"
-            MapServiceToken="xS4vNHeSZFK8abeuR8CL~2uSX4RiX25qGkRIQBRyBfw~AoVbkGgjXqhmrv1XyZPAWMLi74iLFbRI_bG2O5WWFzyO2gAFQkARtwiSsNdjV4kB"
+             x:Name = "MapControl1"
+            Grid.RowSpan = "7"
+            Grid.ColumnSpan = "7"
+            ZoomInteractionMode = "GestureAndControl"
+            TiltInteractionMode = "GestureAndControl"
+            MapServiceToken = "xS4vNHeSZFK8abeuR8CL~2uSX4RiX25qGkRIQBRyBfw~AoVbkGgjXqhmrv1XyZPAWMLi74iLFbRI_bG2O5WWFzyO2gAFQkARtwiSsNdjV4kB"
             />
 
         <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center"  Background="White">
@@ -47,7 +47,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="26,0,0,0"  Background="White">
-            <Button Width="130" Height="50" x:Name="Route" Content="Training" Click="Route_Click"/>
+            <Button Width="130" Height="50" x:Name="Route" Content="Route" Click="Route_Click"/>
         </StackPanel>
 
     </Grid>
