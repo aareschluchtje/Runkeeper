@@ -30,19 +30,12 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class MapPage : Page
     {
-        private List<Geopoint> walkedRoute;
-        private MapIcon runner;
-        private MapPolyline line;
-        private Geopoint startposition;
-        public MapControl mapcontrol;
-        public string from, to;
-        private List<Geopoint> waypoints;
-  
+        private DataHandler data;
         public MapPage()
         {
             this.InitializeComponent();
-            this.waypoints = new List<Geopoint>();
-            this.mapcontrol = MapControl1;
+            this.data = new DataHandler();
+            this.data.currentwalkedRoute = new List<Geopoint>();
         }
         
         public async Task<Geoposition> GetPosition()
@@ -64,7 +57,7 @@ namespace Runkeeper
         {
             MapControl1.ZoomLevel = 16;
             Geoposition x = await GetPosition();
-            startposition = x.Coordinate.Point;
+            data.startposition = x.Coordinate.Point;
         }
 
         private async void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -78,29 +71,22 @@ namespace Runkeeper
         private async void currentLocation(Geoposition position)
         {
             MapControl1.Center = position.Coordinate.Point;
-            this.runner = new MapIcon();
-            runner.Location = position.Coordinate.Point;
-            runner.Title = "I am here";
+            this.data.currentposition = new MapIcon();
+            data.currentposition.Location = position.Coordinate.Point;
+            data.currentposition.Title = "I am here";
 
-            runner.ZIndex = 3;
+            data.currentposition.ZIndex = 3;
 
-            waypoints.Add(runner.Location);
-
-            if(walkedRoute==null)
-            {
-                walkedRoute = new List<Geopoint>();
-            }
-
-            walkedRoute.Add(position.Coordinate.Point);
+            data.currentwalkedRoute.Add(position.Coordinate.Point);
 
             UpdateWalkedRoute();
         }
 
         private async void UpdateWalkedRoute()
         {
-            if (walkedRoute.Count >= 2)
+            if (data.currentwalkedRoute.Count >= 2)
             {
-                MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(walkedRoute);
+                MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(data.currentwalkedRoute);
                 MapRoute b = e.Route;
 
                 MapPolyline currentline = new MapPolyline
@@ -111,25 +97,25 @@ namespace Runkeeper
                     ZIndex = 2
                 };
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
-                for (int i = 0; i < waypoints.Count; i++)
+                for (int i = 0; i < data.currentwalkedRoute.Count; i++)
                 {
-                    positions.Add(new BasicGeoposition() { Latitude = waypoints[i].Position.Latitude, Longitude = waypoints[i].Position.Longitude });
+                    positions.Add(new BasicGeoposition() { Latitude = data.currentwalkedRoute[i].Position.Latitude, Longitude = data.currentwalkedRoute[i].Position.Longitude });
                 }
                 currentline.Path = new Geopath(positions);
                 MapControl1.MapElements.Clear();
-                if(line != null)
+                if(data.calculatedRoute != null)
                 {
-                    MapControl1.MapElements.Add(line);
+                    MapControl1.MapElements.Add(data.calculatedRoute);
                 }
                 MapControl1.MapElements.Add(currentline);
-                MapControl1.MapElements.Add(runner);
+                MapControl1.MapElements.Add(data.currentposition);
             }
         }
 
         public async void FromToRoute(string from, string to)
         {
-            this.from = from;
-            this.to = to;
+            this.data.from = from;
+            this.data.to = to;
 
             MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
             MapLocation from1 = result.Locations.First();
@@ -142,14 +128,14 @@ namespace Runkeeper
             MapRoute map1 = routeresult.Route;
 
             var color = Colors.Red;
-            this.line = new MapPolyline
+            this.data.calculatedRoute = new MapPolyline
             {
                 StrokeThickness = 11,
                 StrokeColor = color,
                 StrokeDashed = false,
                 ZIndex = 2
             };
-            line.Path = new Geopath(map1.Path.Positions);
+            data.calculatedRoute.Path = new Geopath(map1.Path.Positions);
         }
 
         public static async Task<MapLocation> FindLocation(string location, Geopoint reference)
@@ -178,7 +164,7 @@ namespace Runkeeper
 
         private async void Route_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(from,to));
+            Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(data.from,data.to));
         }
 
         private void GetOwnLocation_Click(object sender, RoutedEventArgs e)
