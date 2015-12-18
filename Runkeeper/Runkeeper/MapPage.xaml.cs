@@ -31,6 +31,8 @@ namespace Runkeeper
     public sealed partial class MapPage : Page
     {
         private List<Geopoint> walkedRoute;
+        private MapIcon runner;
+        private MapPolyline line;
 
         public MapPage()
         {
@@ -70,11 +72,9 @@ namespace Runkeeper
         {
             MapControl1.Center = position.Coordinate.Point;
             MapControl1.ZoomLevel = 16;
-            MapIcon runner = new MapIcon();
+            this.runner = new MapIcon();
             runner.Location = position.Coordinate.Point;
             runner.Title = "I am here";
-            MapControl1.MapElements.Clear();
-            MapControl1.MapElements.Add(runner);
 
             if(walkedRoute==null)
             {
@@ -93,6 +93,12 @@ namespace Runkeeper
             {
                 MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(walkedRoute);
                 MapRoute b = e.Route;
+                MapControl1.MapElements.Clear();
+                MapControl1.MapElements.Add(runner);
+                if(line != null)
+                {
+                    MapControl1.MapElements.Add(line);
+                }
             }
         }
 
@@ -136,7 +142,7 @@ namespace Runkeeper
             MapRoute map1 = routeresult.Route;
 
             var color = Colors.Red;
-            var line = new MapPolyline
+            this.line = new MapPolyline
             {
                 StrokeThickness = 11,
                 StrokeColor = color,
@@ -144,7 +150,6 @@ namespace Runkeeper
                 ZIndex = 2
             };
             line.Path = new Geopath(map1.Path.Positions);
-            MapControl1.MapElements.Add(line);
         }
     }
 }
