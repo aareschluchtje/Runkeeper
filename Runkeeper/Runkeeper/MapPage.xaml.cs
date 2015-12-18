@@ -33,12 +33,15 @@ namespace Runkeeper
         private List<Geopoint> walkedRoute;
         private MapIcon runner;
         private MapPolyline line;
+        private Geopoint startposition;
         public MapControl mapcontrol;
         public string from, to;
+        private List<Geopoint> waypoints;
   
         public MapPage()
         {
             this.InitializeComponent();
+            this.waypoints = new List<Geopoint>();
             this.mapcontrol = MapControl1;
         }
         
@@ -59,7 +62,9 @@ namespace Runkeeper
 
         private async void startTracking()
         {
+            MapControl1.ZoomLevel = 16;
             Geoposition x = await GetPosition();
+            startposition = x.Coordinate.Point;
         }
 
         private async void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -73,11 +78,15 @@ namespace Runkeeper
         private async void currentLocation(Geoposition position)
         {
             MapControl1.Center = position.Coordinate.Point;
-            MapControl1.ZoomLevel = 16;
             this.runner = new MapIcon();
             runner.Location = position.Coordinate.Point;
             runner.Title = "I am here";
+<<<<<<< HEAD
             runner.ZIndex = 3;
+=======
+            waypoints.Add(runner.Location);
+
+>>>>>>> origin/master
             if(walkedRoute==null)
             {
                 walkedRoute = new List<Geopoint>();
@@ -86,7 +95,6 @@ namespace Runkeeper
             walkedRoute.Add(position.Coordinate.Point);
 
             UpdateWalkedRoute();
-
         }
 
         private async void UpdateWalkedRoute()
@@ -95,11 +103,26 @@ namespace Runkeeper
             {
                 MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(walkedRoute);
                 MapRoute b = e.Route;
+
+                MapPolyline currentline = new MapPolyline
+                {
+                    StrokeThickness = 11,
+                    StrokeColor = Colors.Blue,
+                    StrokeDashed = false,
+                    ZIndex = 2
+                };
+                List<BasicGeoposition> positions = new List<BasicGeoposition>();
+                for (int i = 0; i < waypoints.Count; i++)
+                {
+                    positions.Add(new BasicGeoposition() { Latitude = waypoints[i].Position.Latitude, Longitude = waypoints[i].Position.Longitude });
+                }
+                currentline.Path = new Geopath(positions);
                 MapControl1.MapElements.Clear();
                 if(line != null)
                 {
                     MapControl1.MapElements.Add(line);
                 }
+                MapControl1.MapElements.Add(currentline);
                 MapControl1.MapElements.Add(runner);
             }
         }
