@@ -19,6 +19,7 @@ using Windows.Devices.Geolocation;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
+using Windows.Services.Maps;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,12 +30,14 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class MapPage : Page
     {
+        private List<Geopoint> walkedRoute;
+
         public MapPage()
         {
             this.InitializeComponent();
-            startTracking();
+         
         }
-
+        
         public async Task<Geoposition> GetPosition()
         {
             var accesStatus = await Geolocator.RequestAccessAsync();
@@ -43,7 +46,7 @@ namespace Runkeeper
             {
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
-            var geolocator = new Geolocator { DesiredAccuracyInMeters = 0 , MovementThreshold = 1};
+            var geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             geolocator.PositionChanged += Geolocator_PositionChanged;
             var position = await geolocator.GetGeopositionAsync();
 
@@ -55,7 +58,7 @@ namespace Runkeeper
             Geoposition x = await GetPosition();
         }
 
-        async private void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        private async void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -70,7 +73,78 @@ namespace Runkeeper
             MapIcon runner = new MapIcon();
             runner.Location = position.Coordinate.Point;
             runner.Title = "I am here";
+            MapControl1.MapElements.Clear();
             MapControl1.MapElements.Add(runner);
+
+            if(walkedRoute==null)
+            {
+                walkedRoute = new List<Geopoint>();
+            }
+
+            walkedRoute.Add(position.Coordinate.Point);
+
+            UpdateWalkedRoute();
+
+        }
+
+        private async void UpdateWalkedRoute()
+        {
+            if (walkedRoute.Count >= 2)
+            {
+                MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(walkedRoute);
+                MapRoute b = e.Route;
+            }
+        }
+
+        public static async Task<MapLocation> FindLocation(string location, Geopoint reference)
+        {
+            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(location, reference);
+            MapLocation from = result.Locations.First();
+            return from;
+        }
+
+        public static async Task<MapRoute> FindRunnerRoute(Geopoint from, Geopoint to)
+        {
+            MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(from,to);
+            MapRoute b = routeResult.Route;
+            return b;
+        }
+
+        private void StartRunning_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RunningPage));
+        }
+
+        private void Activiteiten_Click(object sender, RoutedEventArgs e)
+        {
+            startTracking();
+        }
+
+        private async void Route_Click(object sender, RoutedEventArgs e)
+        {
+            const string from = "Lovensdijkstraat, Breda";
+            const string to = "nieuwe Inslag";
+
+            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
+            MapLocation from1 = result.Locations.First();
+
+            result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
+
+            MapLocation to1 = result.Locations.First();
+            MapRouteFinderResult routeresult = await MapRouteFinder.GetWalkingRouteAsync(from1.Point,to1.Point);
+
+            MapRoute map1 = routeresult.Route;
+
+            var color = Colors.Red;
+            var line = new MapPolyline
+            {
+                StrokeThickness = 11,
+                StrokeColor = color,
+                StrokeDashed = false,
+                ZIndex = 2
+            };
+            line.Path = new Geopath(map1.Path.Positions);
+            MapControl1.MapElements.Add(line);
         }
     }
 }
