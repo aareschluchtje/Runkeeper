@@ -22,7 +22,6 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class CreateRoute : Page
     {
-        MapPage mapPage;
 
         public CreateRoute()
         {

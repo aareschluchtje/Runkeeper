@@ -8,21 +8,11 @@
     mc:Ignorable="d">
     
     <Page.Resources>
-        <Style x:Key="RunStackPanel" TargetType="StackPanel">
-            <Setter Property="Orientation" Value="Horizontal" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-
-        <Style x:Key="RunIcon" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-            <Setter Property="FontSize" Value="28" />
-            <Setter Property="Margin" Value="-2,5,0,0" />
-        </Style>
-
-        <Style x:Key="RunText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="28" />
-            <Setter Property="Margin" Value="20,0,0,0" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="RunkeeperStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     
     <Grid>

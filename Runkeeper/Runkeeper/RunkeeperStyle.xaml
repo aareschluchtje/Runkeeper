@@ -1,0 +1,63 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <!-- MainPage Style -->
+    <Style x:Key="RunStackPanel" TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="RunIcon" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="Margin" Value="-2,5,0,0" />
+    </Style>
+
+    <Style x:Key="RunText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="Margin" Value="20,0,0,0" />
+    </Style>
+    
+    <!--CreateRoutePage Style -->
+    <Style x:Key="TextBoxStyleCreateRoute" TargetType="TextBox">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="ButtonStyleCreatRoute" TargetType="Button">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+    
+    <!-- MapPage Style-->
+    <Style x:Key="RelativePanelStyleMapPage" TargetType="RelativePanel">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,100"/>
+    </Style>
+    
+    <Style x:Key="ButtonStyleMapPage" TargetType="Button">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="260"/>
+        <Setter Property="Margin" Value="0,0,0,50"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="ButtonStyleMapPage2" TargetType="Button">
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="ButtonStyleMapPage3" TargetType="Button">
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+</ResourceDictionary>

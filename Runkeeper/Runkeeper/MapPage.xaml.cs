@@ -167,11 +167,6 @@ namespace Runkeeper
             Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(data.from,data.to));
         }
 
-        private void GetOwnLocation_Click(object sender, RoutedEventArgs e)
-        {
-            startTracking();
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var value = (Tuple<string, string,string>)e.Parameter;
@@ -179,6 +174,11 @@ namespace Runkeeper
             {
                 FromToRoute(value.Item2, value.Item3);
             }
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            startTracking();
         }
     }
 }

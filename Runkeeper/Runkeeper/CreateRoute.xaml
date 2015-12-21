@@ -7,40 +7,31 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="RunkeeperStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            
         </Grid.ColumnDefinitions>
+        <TextBox  Grid.Row="0" Grid.Column="1"  Name="From" Text="Kies een vertrekpunt" Style="{StaticResource TextBoxStyleCreateRoute}" />
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center">
-            <TextBox Name="From" Text="Kies een vertrekpunt"/>
-        </StackPanel>
+        <TextBox Grid.Row="1" Grid.Column="1"  Name="To" Text="Kies uw bestemming"  Style="{StaticResource TextBoxStyleCreateRoute}"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6"  VerticalAlignment="Center">
-            <TextBox Name="To" Text="Kies uw bestemming"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="2"  Grid.Column="1" Grid.ColumnSpan="6" VerticalAlignment="Center">
-            <Button Name="StartOwnRoute" Content="Start Route" Width="270" Click="StartOwnRoute_Click"/>
-        </StackPanel>
+        <Button Grid.Row="2" Grid.Column="1"  Name="StartOwnRoute" Content="Start Route" Style="{StaticResource ButtonStyleCreatRoute}" Click="StartOwnRoute_Click"/>
     </Grid>
 </Page>

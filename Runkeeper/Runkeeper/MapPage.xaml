@@ -8,23 +8,30 @@
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d">
 
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="RunkeeperStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -32,36 +39,25 @@
         <Maps:MapControl
              x:Name = "MapControl1"
             Grid.RowSpan = "7"
-            Grid.ColumnSpan = "7"
+            Grid.ColumnSpan = "5"
+            Background="White"
             ZoomInteractionMode = "GestureAndControl"
             TiltInteractionMode = "GestureAndControl"
-            MapServiceToken = "xS4vNHeSZFK8abeuR8CL~2uSX4RiX25qGkRIQBRyBfw~AoVbkGgjXqhmrv1XyZPAWMLi74iLFbRI_bG2O5WWFzyO2gAFQkARtwiSsNdjV4kB"
-            />
+            MapServiceToken = "xS4vNHeSZFK8abeuR8CL~2uSX4RiX25qGkRIQBRyBfw~AoVbkGgjXqhmrv1XyZPAWMLi74iLFbRI_bG2O5WWFzyO2gAFQkARtwiSsNdjV4kB"/>
 
-        <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Center"  Background="White">
-            <Button Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="5" Width="260"  Name="StartRunning" Content="Start Running" Click="StartRunning_Click"/>
-        </StackPanel>
-     
-        <StackPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4" VerticalAlignment="Bottom"  Background="White">
-            <Button Grid.Row="5"  Grid.Column="1"  Name="Activiteiten" Width="130" Height="50"  Content="Activiteit" Click="Activiteiten_Click"/>
-        </StackPanel>
+        <Button Style="{StaticResource ButtonStyleMapPage}" Grid.Row="6" Grid.Column="2" Name="StartRunning" Content="Start Running" Click="StartRunning_Click"/>
 
-        <StackPanel Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="26,0,0,0"  Background="White">
-            <Button Width="130" Height="50" x:Name="Route" Content="Route" Click="Route_Click"/>
-        </StackPanel>
+        <RelativePanel Grid.Row="6" Grid.Column="2" Style="{StaticResource RelativePanelStyleMapPage}">
+            <Button Style="{StaticResource ButtonStyleMapPage2}" Name="Activiteiten" Content="Activiteit" Click="Activiteiten_Click"/>
 
-        <StackPanel Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Button Click="GetOwnLocation_Click">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Width="35" Height="35" Fill="Gray"/>
-                            <ContentPresenter FontFamily="Segoe MDL2 Assets"  x:Name="GetOwnLocation" Content="&#xE1D2;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </StackPanel>
-
+            <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
+        </RelativePanel>
     </Grid>
+    <Page.BottomAppBar>
+        <AppBar IsOpen="False" IsSticky="True">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <AppBarButton Icon="MapPin" Label="Location" Click="AppBarButton_Click"/>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
 </Page>
