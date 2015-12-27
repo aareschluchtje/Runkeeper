@@ -8,13 +8,24 @@ using Windows.UI.Xaml.Controls.Maps;
 
 namespace Runkeeper
 {
-    class DataHandler
+    static class DataHandler
     {
-        public List<Geopoint> currentwalkedRoute;
-        public List<List<Geopoint>> walkedRoutes;
-        public MapIcon currentposition;
-        public MapPolyline calculatedRoute;
-        public Geopoint startposition;
-        public string from, to;
+        static public List<Geopoint> currentwalkedRoute = new List<Geopoint>();
+        static public List<List<Geopoint>> walkedRoutes = new List<List<Geopoint>>();
+        static public MapIcon currentposition;
+        static public MapPolyline calculatedRoute;
+        static public Geopoint startposition;
+        static public string from, to;
+
+        public static void saveData()
+        {
+            walkedRoutes.Add(currentwalkedRoute);
+            currentwalkedRoute = new List<Geopoint>();
+        }
+
+        public static void LoadData()
+        {
+
+        }
     }
 }

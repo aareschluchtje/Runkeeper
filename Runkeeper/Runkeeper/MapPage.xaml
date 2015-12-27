@@ -49,7 +49,6 @@
 
         <RelativePanel Grid.Row="6" Grid.Column="2" Style="{StaticResource RelativePanelStyleMapPage}">
             <Button Style="{StaticResource ButtonStyleMapPage2}" Name="Activiteiten" Content="Activiteit" Click="Activiteiten_Click"/>
-
             <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
     </Grid>
