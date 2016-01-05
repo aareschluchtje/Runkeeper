@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -21,36 +22,42 @@ namespace Runkeeper
         static public Geopoint startposition;
         static public string from, to;
 
-        public static async Task saveData()
+        public static void saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
             currentwalkedRoute = new List<Geopoint>();
-            Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync("something.txt", CreationCollisionOption.ReplaceExisting);
-            if(responseStream.CanWrite)
+            List<string> list = new List<string>();
+            foreach (List<Geopoint> route in walkedRoutes)
             {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<List<Geopoint>>));
-                serializer.WriteObject(responseStream, walkedRoutes);
-                await responseStream.FlushAsync();
+                list.Add("route");
+                foreach(Geopoint point in route)
+                {
+                    list.Add(point.Position.Latitude + "|" + point.Position.Longitude);
+                }
             }
-            responseStream.Dispose();
+            File.WriteAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt", list);
         }
 
-        public static async Task loadData()
+        public static void loadData()
         {
-            string iets = "\\something.txt";
-            if(File.Exists(ApplicationData.Current.LocalFolder.Path + iets))
+            if(File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
             {
-                Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("something.txt");
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<List<Geopoint>>));
-                walkedRoutes = (List<List<Geopoint>>)serializer.ReadObject(responseStream);
-                await responseStream.FlushAsync();
-                responseStream.Dispose();
+                walkedRoutes = new List<List<Geopoint>>();
+                string[] list = File.ReadAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt");
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if(!list[i].Equals("route"))
+                    {
+                        string[] items = list[i].Split('|');
+                        walkedRoutes[walkedRoutes.Count - 1].Add(new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) }));
+                    }
+                    else
+                    {
+                        walkedRoutes.Add(new List<Geopoint>());
+                    }
+                }
+                Debug.WriteLine(walkedRoutes);
             }
-            else
-            {
-                await saveData();
-            }
-            
         }
     }
 }
