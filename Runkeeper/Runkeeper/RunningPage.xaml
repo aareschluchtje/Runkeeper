@@ -32,7 +32,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Center">
-            <Button Name="PAUZE" Margin="10" Width="120" Height="40" Content="PAUZE" Click="PAUZE_Click"/>
+            <Button Name="START" Margin="10" Width="120" Height="40" Content="START"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center">

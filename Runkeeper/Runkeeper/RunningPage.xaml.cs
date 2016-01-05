@@ -31,10 +31,5 @@ namespace Runkeeper
         {
 
         }
-
-        private void PAUZE_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
     }
 }
