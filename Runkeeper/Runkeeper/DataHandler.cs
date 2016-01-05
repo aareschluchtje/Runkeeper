@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.Devices.Geolocation;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace Runkeeper
@@ -17,15 +21,30 @@ namespace Runkeeper
         static public Geopoint startposition;
         static public string from, to;
 
-        public static void saveData()
+        public static async Task saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
             currentwalkedRoute = new List<Geopoint>();
+            Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync("something.txt", CreationCollisionOption.ReplaceExisting);
+            if(responseStream.CanWrite)
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<List<Geopoint>>));
+                serializer.WriteObject(responseStream, walkedRoutes);
+                await responseStream.FlushAsync();
+            }
+            responseStream.Dispose();
         }
 
-        public static void LoadData()
+        public static async Task loadData()
         {
-
+            Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("something.txt");
+            if(responseStream.CanRead)
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<List<Geopoint>>));
+                walkedRoutes = (List<List<Geopoint>>)serializer.ReadObject(responseStream);
+                await responseStream.FlushAsync();
+            }
+            responseStream.Dispose();
         }
     }
 }
