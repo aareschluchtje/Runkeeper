@@ -37,14 +37,20 @@ namespace Runkeeper
 
         public static async Task loadData()
         {
-            Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("something.txt");
-            if(responseStream.CanRead)
+            string iets = "\\something.txt";
+            if(File.Exists(ApplicationData.Current.LocalFolder.Path + iets))
             {
+                Stream responseStream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("something.txt");
                 DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<List<Geopoint>>));
                 walkedRoutes = (List<List<Geopoint>>)serializer.ReadObject(responseStream);
                 await responseStream.FlushAsync();
+                responseStream.Dispose();
             }
-            responseStream.Dispose();
+            else
+            {
+                await saveData();
+            }
+            
         }
     }
 }

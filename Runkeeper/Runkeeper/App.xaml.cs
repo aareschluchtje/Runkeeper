@@ -37,7 +37,7 @@ namespace Runkeeper
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -46,7 +46,7 @@ namespace Runkeeper
                 this.DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
-
+            await DataHandler.loadData();
             rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -95,10 +95,11 @@ namespace Runkeeper
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            await DataHandler.saveData();
             deferral.Complete();
         }
     }

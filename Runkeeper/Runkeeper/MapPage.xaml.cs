@@ -165,15 +165,13 @@ namespace Runkeeper
             Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(DataHandler.from,DataHandler.to));
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await DataHandler.loadData();
             var value = (Tuple<string, string,string>)e.Parameter;
             if(value.Item1.Equals("createroute"))
             {
                 FromToRoute(value.Item2, value.Item3);
             }
-            await DataHandler.saveData();
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
