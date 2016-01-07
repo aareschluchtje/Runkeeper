@@ -94,18 +94,35 @@ namespace Runkeeper
                     StrokeDashed = false,
                     ZIndex = 2
                 };
+                MapPolyline oldline = new MapPolyline
+                {
+                    StrokeThickness = 11,
+                    StrokeColor = Colors.Gray,
+                    StrokeDashed = false,
+                    ZIndex = 1
+                };
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
                 for (int i = 0; i < DataHandler.currentwalkedRoute.Count; i++)
                 {
                     positions.Add(new BasicGeoposition() { Latitude = DataHandler.currentwalkedRoute[i].Position.Latitude, Longitude = DataHandler.currentwalkedRoute[i].Position.Longitude });
                 }
+                List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
+                foreach (List<Geopoint> route in DataHandler.walkedRoutes)
+                {
+                    foreach (Geopoint point in route)
+                    {
+                        oldpositions.Add(new BasicGeoposition() { Latitude = point.Position.Latitude, Longitude = point.Position.Longitude });
+                    }
+                }
                 currentline.Path = new Geopath(positions);
+                oldline.Path = new Geopath(oldpositions);
                 MapControl1.MapElements.Clear();
                 if(DataHandler.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(DataHandler.calculatedRoute);
                 }
                 MapControl1.MapElements.Add(currentline);
+                MapControl1.MapElements.Add(oldline);
                 MapControl1.MapElements.Add(DataHandler.currentposition);
             }
         }
