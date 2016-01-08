@@ -12,6 +12,8 @@ namespace Runkeeper
         public DataStamp(Geopoint geopoint, DateTime time, double speed)
         {
             this.location = geopoint;
+            this.time = time;
+            this.speed = speed;
         }
 
         public Geopoint location { get; set; }
