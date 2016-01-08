@@ -50,6 +50,7 @@ namespace Runkeeper
                     {
                         string[] items = list[i].Split('|');
                         walkedRoutes[walkedRoutes.Count - 1].Add(new DataStamp(new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) }), DateTime.Parse(items[2]), Double.Parse(items[3])));
+                        System.Diagnostics.Debug.WriteLine(walkedRoutes);
                     }
                     else
                     {
