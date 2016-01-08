@@ -35,16 +35,16 @@
             <Button Name="START" Margin="10" Width="120" Height="40" Content="START"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <TextBlock Text="AFSTAND" Margin="60,0,0,0"/>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock Text="AFSTAND" Margin="50,0,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center">
             <TextBlock Text="  HUIDIGE TEMPO" Margin="30,0,0,0"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <TextBlock Text="KM" Margin="80,0,0,0"/>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <TextBlock Text="KM" Margin="60,0,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center">
@@ -52,11 +52,11 @@
         </StackPanel>
 
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="00:00" Margin="60,0,0,0" FontSize="26"/>
+        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="00:00" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >
             <TextBlock Text="00:00" Margin="60,0,0,0" FontSize="26"/>
         </StackPanel>
         

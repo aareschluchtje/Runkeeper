@@ -40,16 +40,16 @@ namespace Runkeeper
 
         public static void loadData()
         {
-            if(File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
+            if (File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
             {
                 walkedRoutes = new List<List<Geopoint>>();
                 string[] list = File.ReadAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt");
                 for (int i = 0; i < list.Length; i++)
                 {
-                    if(!list[i].Equals("route"))
+                    if (!list[i].Equals("route"))
                     {
                         string[] items = list[i].Split('|');
-                        walkedRoutes[walkedRoutes.Count - 1].Add(new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) }));
+                        //walkedRoutes[walkedRoutes.Count - 1].Add(new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) }));
                     }
                     else
                     {
