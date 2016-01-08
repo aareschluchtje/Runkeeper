@@ -33,7 +33,7 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            DataHandler.currentwalkedRoute = new List<Geopoint>();
+            DataHandler.currentwalkedRoute = new List<DataStamp>();
         }
         
         public async Task<Geoposition> GetPosition()
@@ -75,18 +75,15 @@ namespace Runkeeper
 
             DataHandler.currentposition.ZIndex = 3;
 
-            DataHandler.currentwalkedRoute.Add(position.Coordinate.Point);
+            DataHandler.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0));
 
             UpdateWalkedRoute();
         }
 
-        private async void UpdateWalkedRoute()
+        private void UpdateWalkedRoute()
         {
             if (DataHandler.currentwalkedRoute.Count >= 2)
             {
-                MapRouteFinderResult e = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(DataHandler.currentwalkedRoute);
-                MapRoute b = e.Route;
-
                 MapPolyline currentline = new MapPolyline
                 {
                     StrokeThickness = 11,
@@ -104,14 +101,14 @@ namespace Runkeeper
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
                 for (int i = 0; i < DataHandler.currentwalkedRoute.Count; i++)
                 {
-                    positions.Add(new BasicGeoposition() { Latitude = DataHandler.currentwalkedRoute[i].Position.Latitude, Longitude = DataHandler.currentwalkedRoute[i].Position.Longitude });
+                    positions.Add(new BasicGeoposition() { Latitude = DataHandler.currentwalkedRoute[i].location.Position.Latitude, Longitude = DataHandler.currentwalkedRoute[i].location.Position.Longitude });
                 }
                 List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (List<Geopoint> route in DataHandler.walkedRoutes)
+                foreach (List<DataStamp> route in DataHandler.walkedRoutes)
                 {
-                    foreach (Geopoint point in route)
+                    foreach (DataStamp point in route)
                     {
-                        oldpositions.Add(new BasicGeoposition() { Latitude = point.Position.Latitude, Longitude = point.Position.Longitude });
+                        oldpositions.Add(new BasicGeoposition() { Latitude = point.location.Position.Latitude, Longitude = point.location.Position.Longitude });
                     }
                 }
                 currentline.Path = new Geopath(positions);
