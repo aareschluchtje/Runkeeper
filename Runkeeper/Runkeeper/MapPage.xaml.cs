@@ -115,14 +115,20 @@ namespace Runkeeper
                     }
                 }
                 currentline.Path = new Geopath(positions);
-                oldline.Path = new Geopath(oldpositions);
+                if(oldpositions.Count != 0)
+                {
+                    oldline.Path = new Geopath(oldpositions);
+                }
                 MapControl1.MapElements.Clear();
                 if(DataHandler.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(DataHandler.calculatedRoute);
                 }
                 MapControl1.MapElements.Add(currentline);
-                MapControl1.MapElements.Add(oldline);
+                if(oldline.Path != null)
+                {
+                    MapControl1.MapElements.Add(oldline);
+                }
                 MapControl1.MapElements.Add(DataHandler.currentposition);
             }
         }
