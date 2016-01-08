@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +27,33 @@ namespace Runkeeper
         public DataPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
         }
+
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadChartcontent();
+        }
+
+        private void LoadChartcontent()
+        {
+            Random rand = new Random();
+            List<FinancialStuff> financialStuffList = new List<FinancialStuff>();
+            financialStuffList.Add(new FinancialStuff() { Name = "MSFT", Amount = rand.Next(0, 200) });
+            financialStuffList.Add(new FinancialStuff() { Name = "AAPL", Amount = rand.Next(0, 200) });
+            financialStuffList.Add(new FinancialStuff() { Name = "GOOG", Amount = rand.Next(0, 200) });
+            financialStuffList.Add(new FinancialStuff() { Name = "BBRY", Amount = rand.Next(0, 200) });
+            (TimeChart.Series[0] as LineSeries).ItemsSource = financialStuffList;
+        }
+
+        private void Ref_Click(object sender, RoutedEventArgs e)
+        {
+            LoadChartcontent();
+        }
+    }
+    public class FinancialStuff
+    {
+        public string Name { get; set; }
+        public int Amount { get; set; }
     }
 }
