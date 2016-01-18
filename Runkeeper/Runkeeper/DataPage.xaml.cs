@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -37,23 +38,31 @@ namespace Runkeeper
 
         private void LoadChartcontent()
         {
-            Random rand = new Random();
-            List<FinancialStuff> financialStuffList = new List<FinancialStuff>();
-            financialStuffList.Add(new FinancialStuff() { Name = "MSFT", Amount = rand.Next(0, 200) });
-            financialStuffList.Add(new FinancialStuff() { Name = "AAPL", Amount = rand.Next(0, 200) });
-            financialStuffList.Add(new FinancialStuff() { Name = "GOOG", Amount = rand.Next(0, 200) });
-            financialStuffList.Add(new FinancialStuff() { Name = "BBRY", Amount = rand.Next(0, 200) });
-            (TimeChart.Series[0] as LineSeries).ItemsSource = financialStuffList;
-        }
+            List<TimeDistance> list = new List<TimeDistance>();
+            foreach (List<DataStamp> data in DataHandler.walkedRoutes)
+            {
+                foreach(DataStamp datastamp in data)
+                {
+                    list.Add(new TimeDistance { time = datastamp.time.ToString() } );
+                }
+            }
+            (TimeChart.Series[0] as LineSeries).ItemsSource = list;
+        } 
 
         private void Ref_Click(object sender, RoutedEventArgs e)
         {
             LoadChartcontent();
         }
+
+        public double calculateDistance(Geopoint start, Geopoint end)
+        {
+            distance = 0;
+            return distance;
+        }
     }
-    public class FinancialStuff
+    public class TimeDistance
     {
-        public string Name { get; set; }
-        public int Amount { get; set; }
+        public string time;
+        public double distance;
     }
 }

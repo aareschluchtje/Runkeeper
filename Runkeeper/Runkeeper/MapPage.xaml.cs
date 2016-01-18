@@ -47,7 +47,6 @@ namespace Runkeeper
             var geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             geolocator.PositionChanged += Geolocator_PositionChanged;
             var position = await geolocator.GetGeopositionAsync();
-
             return position;
         }
 
@@ -116,7 +115,7 @@ namespace Runkeeper
                 {
                     oldline.Path = new Geopath(oldpositions);
                 }
-
+                
                 MapControl1.MapElements.Clear();
                 if(DataHandler.calculatedRoute != null)
                 {
