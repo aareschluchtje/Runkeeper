@@ -24,14 +24,12 @@ namespace Runkeeper
     public sealed partial class RunningPage : Page
     {
         Time time;
-        DataHandler datahandeler;
         public RunningPage()
         {
             this.InitializeComponent();
             time = new Time();
-            datahandeler = new DataHandler();
-            this.DataContext = time;
-            this.DataContext = datahandeler;
+            //this.DataContext = time;
+            this.DataContext = App.instance.transfer.data;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)

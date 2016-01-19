@@ -25,14 +25,14 @@ namespace Runkeeper
         public Geopoint startposition;
         public string from, to;
         public List<double> totaldistances = new List<double>();
-        public double currentDistance = 0;
+        public string currentDistance;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
-            totaldistances.Add(currentDistance);
-            currentDistance = 0;
+            totaldistances.Add(double.Parse(currentDistance));
+            currentDistance = "0";
             currentwalkedRoute = new List<DataStamp>();
             List<string> list = new List<string>();
             for (int v = 0; v < walkedRoutes.Count; v++)
@@ -78,8 +78,11 @@ namespace Runkeeper
             MapRoute b = routeResult.Route;
             double distance = b.LengthInMeters;
             totaldistances[totaldistances.Count-1] += distance;
-            currentDistance += distance;
+            currentDistance = (double.Parse(currentDistance) + distance).ToString();
+            NotifyPropertyChanged(nameof(currentDistance));
+            System.Diagnostics.Debug.WriteLine("Afstand " + currentDistance);
             return distance;
+
         }
 
         protected void NotifyPropertyChanged(string propertyName)
