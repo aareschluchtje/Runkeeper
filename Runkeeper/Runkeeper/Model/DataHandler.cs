@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,12 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.Devices.Geolocation;
+using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace Runkeeper
 {
-    static class DataHandler
+    public class DataHandler : INotifyPropertyChanged
     {
         static public List<DataStamp> currentwalkedRoute = new List<DataStamp>();
         static public List<List<DataStamp>> walkedRoutes = new List<List<DataStamp>>();
@@ -21,6 +23,9 @@ namespace Runkeeper
         static public MapPolyline calculatedRoute;
         static public Geopoint startposition;
         static public string from, to;
+        public double totaldistance;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public static void saveData()
         {
@@ -59,6 +64,20 @@ namespace Runkeeper
                 }
                 Debug.WriteLine(walkedRoutes);
             }
+        }
+
+        public async Task<double> calculateDistance(Geopoint start, Geopoint end)
+        {
+            MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
+            MapRoute b = routeResult.Route;
+            double distance = b.LengthInMeters;
+            totaldistance += distance;
+            return distance;
+        }
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

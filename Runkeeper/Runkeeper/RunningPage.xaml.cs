@@ -24,10 +24,12 @@ namespace Runkeeper
     public sealed partial class RunningPage : Page
     {
         Time time;
+        DataHandler datahandeler;
         public RunningPage()
         {
             this.InitializeComponent();
             time = new Time();
+            datahandeler = new DataHandler();
             this.DataContext = time;
             // lol.Text = time.stopwatch.Elapsed.Seconds.ToString();
         }

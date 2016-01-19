@@ -7,7 +7,7 @@ using Windows.Devices.Geolocation;
 
 namespace Runkeeper
 {
-    class DataStamp
+    public class DataStamp
     {
         public DataStamp(Geopoint geopoint, DateTime time, double speed)
         {
