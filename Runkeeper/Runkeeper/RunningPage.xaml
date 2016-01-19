@@ -73,10 +73,10 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Name="lol" Text="{Binding stopwatchTime}" FontSize="26"/>
+            <TextBlock Name="TimeBlock" Text="{Binding stopwatchTime}" FontSize="26"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal">
+        <StackPanel  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal">
             <Border BorderBrush="LightGray" BorderThickness="2,2,2,0" Width="1" />
         </StackPanel>
 

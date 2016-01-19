@@ -16,7 +16,6 @@ namespace Runkeeper.ViewModel
         public DispatcherTimer timer;
         public String stopwatchTime { get; set; }
         private double startTime;
-        public string timestr = "";
         public Time()
         {
             startTime = Now;
