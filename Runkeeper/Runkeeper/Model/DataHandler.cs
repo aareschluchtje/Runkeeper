@@ -25,12 +25,14 @@ namespace Runkeeper
         public Geopoint startposition;
         public string from, to;
         public List<double> totaldistances = new List<double>();
-        public double currentDistance;
+        public double currentDistance = 0;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
+            totaldistances.Add(currentDistance);
+            currentDistance = 0;
             currentwalkedRoute = new List<DataStamp>();
             List<string> list = new List<string>();
             for (int v = 0; v < walkedRoutes.Count; v++)
@@ -68,8 +70,6 @@ namespace Runkeeper
                 }
                 Debug.WriteLine(walkedRoutes);
             }
-            totaldistances.Add(0);
-            currentDistance = 0;
         }
 
         public async Task<double> calculateUpdateDistance(Geopoint start, Geopoint end)
