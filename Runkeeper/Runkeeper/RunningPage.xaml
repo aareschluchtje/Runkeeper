@@ -44,7 +44,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <TextBlock Text="KM" Margin="60,0,0,0"/>
+            <TextBlock Text="Meter" Margin="60,0,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center">
@@ -53,7 +53,7 @@
 
 
         <StackPanel Name="Afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Name="afstandtext" Text="{Binding currentDistance}" Margin="50,0,0,0" FontSize="26"/>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Name="afstandtext" Text="{Binding currentDistance}" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 
         <StackPanel Name="SpeedText" Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >

@@ -28,9 +28,9 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             time = new Time();
-            //this.DataContext = time;
-            this.DataContext = App.instance.transfer.data;
             SpeedText.DataContext = App.instance.transfer.data;
+            this.DataContext = time;
+            Afstand.DataContext = App.instance.transfer.data;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
