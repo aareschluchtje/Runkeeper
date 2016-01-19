@@ -56,7 +56,15 @@ namespace Runkeeper
 
         public double calculateDistance(Geopoint start, Geopoint end)
         {
-            distance = 0;
+            double distance = 0;
+            double theta = start.Position.Longitude - end.Position.Longitude;
+            double dist = Math.Sin(Math.PI*start.Position.Latitude/180)*Math.Sin(Math.PI*end.Position.Latitude/180) +
+                          Math.Cos(Math.PI*start.Position.Latitude/180)*Math.Cos(Math.PI*end.Position.Latitude/180)*
+                          Math.Cos(Math.PI*theta/180);
+            dist = Math.Acos(dist);
+            dist = dist/Math.PI*180;
+            dist = dist*60*1.1515;
+            distance = dist*1.609344;
             return distance;
         }
     }

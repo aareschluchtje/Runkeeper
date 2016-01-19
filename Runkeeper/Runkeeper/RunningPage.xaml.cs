@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Runkeeper.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,14 +23,24 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class RunningPage : Page
     {
+        Time time;
         public RunningPage()
         {
             this.InitializeComponent();
+            time = new Time();
+            this.DataContext = time;
+            // lol.Text = time.stopwatch.Elapsed.Seconds.ToString();
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
+                time.timer.Stop();
+            time.ResetStopWatch();
+        }
 
+        private void START_Click(object sender, RoutedEventArgs e)
+        {
+            time.timer.Start();
         }
     }
 }
