@@ -22,6 +22,7 @@ namespace Runkeeper.ViewModel
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += TimerOnTick;
+            stopwatchTime = "0:0:0:0";
         }
 
         public static double Now { get { return (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds; } }
