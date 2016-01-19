@@ -9,15 +9,21 @@ namespace Runkeeper
 {
     public class DataStamp
     {
-        public DataStamp(Geopoint geopoint, DateTime time, double speed)
+        private Geopoint point;
+        private DateTime dateTime;
+        private double v;
+
+        public DataStamp(Geopoint geopoint, DateTime time, double speed, double distance)
         {
             this.location = geopoint;
             this.time = time;
             this.speed = speed;
+            this.distance = distance;
         }
 
         public Geopoint location { get; set; }
         public DateTime time { get; set; }
         public double speed { get; set; }
+        public double distance { get; set; }
     }
 }

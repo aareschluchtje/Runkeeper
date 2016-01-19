@@ -17,17 +17,18 @@ namespace Runkeeper
 {
     public class DataHandler : INotifyPropertyChanged
     {
-        static public List<DataStamp> currentwalkedRoute = new List<DataStamp>();
-        static public List<List<DataStamp>> walkedRoutes = new List<List<DataStamp>>();
-        static public MapIcon currentposition;
-        static public MapPolyline calculatedRoute;
-        static public Geopoint startposition;
-        static public string from, to;
+        public List<DataStamp> currentwalkedRoute = new List<DataStamp>();
+        public List<List<DataStamp>> walkedRoutes = new List<List<DataStamp>>();
+        public Geolocator geolocator;
+        public MapIcon currentposition;
+        public MapPolyline calculatedRoute;
+        public Geopoint startposition;
+        public string from, to;
         public double totaldistance;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static void saveData()
+        public void saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
             currentwalkedRoute = new List<DataStamp>();
@@ -35,26 +36,27 @@ namespace Runkeeper
             foreach (List<DataStamp> route in walkedRoutes)
             {
                 list.Add("route");
-                foreach(DataStamp point in route)
+                for (int i = 0; i < route.Count; i++)
                 {
-                    list.Add(point.location.Position.Latitude + "|" + point.location.Position.Longitude + "|" + point.time.ToString() +  "|" + 0);
+                    list.Add(route[i].location.Position.Latitude + "|" + route[i].location.Position.Longitude + "|" + route[i].time.ToString() + "|" + route[i].speed + "|" + route[i].distance);
                 }
             }
             File.WriteAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt", list);
         }
 
-        public static void loadData()
+        public void loadData()
         {
-            if(File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
+            if (File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
             {
                 walkedRoutes = new List<List<DataStamp>>();
                 string[] list = File.ReadAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt");
                 for (int i = 0; i < list.Length; i++)
                 {
-                    if(!list[i].Equals("route"))
+                    if (!list[i].Equals("route"))
                     {
                         string[] items = list[i].Split('|');
-                        walkedRoutes[walkedRoutes.Count - 1].Add(new DataStamp(new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) }), DateTime.Parse(items[2]), Double.Parse(items[3])));
+                        Geopoint point = new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) });
+                        walkedRoutes[walkedRoutes.Count - 1].Add(new DataStamp(point, DateTime.Parse(items[2]), Double.Parse(items[3]), Double.Parse(items[4])));
                         System.Diagnostics.Debug.WriteLine(walkedRoutes);
                     }
                     else

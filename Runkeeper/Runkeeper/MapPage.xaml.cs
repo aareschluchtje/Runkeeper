@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.Services.Maps;
+using Runkeeper.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,7 +34,7 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            DataHandler.currentwalkedRoute = new List<DataStamp>();
+            App.instance.transfer.data.currentwalkedRoute = new List<DataStamp>();
         }
         
         public async Task<Geoposition> GetPosition()
@@ -54,7 +55,7 @@ namespace Runkeeper
         {
             MapControl1.ZoomLevel = 16;
             Geoposition x = await GetPosition();
-            DataHandler.startposition = x.Coordinate.Point;
+            App.instance.transfer.data.startposition = x.Coordinate.Point;
         }
 
         private async void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -68,20 +69,20 @@ namespace Runkeeper
         private void currentLocation(Geoposition position)
         {
             MapControl1.Center = position.Coordinate.Point;
-            DataHandler.currentposition = new MapIcon();
-            DataHandler.currentposition.Location = position.Coordinate.Point;
-            DataHandler.currentposition.Title = "I am here";
+            App.instance.transfer.data.currentposition = new MapIcon();
+            App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
+            App.instance.transfer.data.currentposition.Title = "I am here";
 
-            DataHandler.currentposition.ZIndex = 3;
+            App.instance.transfer.data.currentposition.ZIndex = 3;
 
-            DataHandler.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0));
+            App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
 
             UpdateWalkedRoute();
         }
 
         private void UpdateWalkedRoute()
         {
-            if (DataHandler.currentwalkedRoute.Count >= 2)
+            if (App.instance.transfer.data.currentwalkedRoute.Count >= 2)
             {
                 MapPolyline currentline = new MapPolyline
                 {
@@ -98,12 +99,12 @@ namespace Runkeeper
                     ZIndex = 1
                 };
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
-                for (int i = 0; i < DataHandler.currentwalkedRoute.Count; i++)
+                for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.Count; i++)
                 {
-                    positions.Add(new BasicGeoposition() { Latitude = DataHandler.currentwalkedRoute[i].location.Position.Latitude, Longitude = DataHandler.currentwalkedRoute[i].location.Position.Longitude });
+                    positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Longitude });
                 }
                 List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (List<DataStamp> route in DataHandler.walkedRoutes)
+                foreach (List<DataStamp> route in App.instance.transfer.data.walkedRoutes)
                 {
                     foreach (DataStamp point in route)
                     {
@@ -117,9 +118,9 @@ namespace Runkeeper
                 }
                 
                 MapControl1.MapElements.Clear();
-                if(DataHandler.calculatedRoute != null)
+                if(App.instance.transfer.data.calculatedRoute != null)
                 {
-                    MapControl1.MapElements.Add(DataHandler.calculatedRoute);
+                    MapControl1.MapElements.Add(App.instance.transfer.data.calculatedRoute);
                 }
                 MapControl1.MapElements.Add(currentline);
 
@@ -127,14 +128,14 @@ namespace Runkeeper
                 {
                     MapControl1.MapElements.Add(oldline);
                 }
-                MapControl1.MapElements.Add(DataHandler.currentposition);
+                MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
             }
         }
 
         public async void FromToRoute(string from, string to)
         {
-            DataHandler.from = from;
-            DataHandler.to = to;
+            App.instance.transfer.data.from = from;
+            App.instance.transfer.data.to = to;
 
             MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
             MapLocation from1 = result.Locations.First();
@@ -147,14 +148,14 @@ namespace Runkeeper
             MapRoute map1 = routeresult.Route;
 
             var color = Colors.Red;
-            DataHandler.calculatedRoute = new MapPolyline
+            App.instance.transfer.data.calculatedRoute = new MapPolyline
             {
                 StrokeThickness = 11,
                 StrokeColor = color,
                 StrokeDashed = false,
                 ZIndex = 2
             };
-            DataHandler.calculatedRoute.Path = new Geopath(map1.Path.Positions);
+            App.instance.transfer.data.calculatedRoute.Path = new Geopath(map1.Path.Positions);
         }
 
         public static async Task<MapLocation> FindLocation(string location, Geopoint reference)
@@ -183,7 +184,7 @@ namespace Runkeeper
 
         private void Route_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(DataHandler.from,DataHandler.to));
+            Frame.Navigate(typeof(CreateRoute), new Tuple<string, string>(App.instance.transfer.data.from, App.instance.transfer.data.to));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

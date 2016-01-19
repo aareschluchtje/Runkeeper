@@ -26,6 +26,7 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
+        MapPage map;
         public DataPage()
         {
             this.InitializeComponent();
@@ -40,7 +41,7 @@ namespace Runkeeper
         private void LoadChartcontent()
         {
             List<TimeDistance> list = new List<TimeDistance>();
-            foreach (List<DataStamp> data in DataHandler.walkedRoutes)
+            foreach (List<DataStamp> data in App.instance.transfer.data.walkedRoutes)
             {
                 foreach(DataStamp datastamp in data)
                 {

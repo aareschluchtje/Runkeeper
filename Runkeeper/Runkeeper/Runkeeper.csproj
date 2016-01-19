@@ -118,6 +118,7 @@
     <Compile Include="MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunningPage.xaml.cs">
       <DependentUpon>RunningPage.xaml</DependentUpon>

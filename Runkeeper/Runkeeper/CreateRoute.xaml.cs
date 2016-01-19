@@ -31,7 +31,6 @@ namespace Runkeeper
         private void StartOwnRoute_Click(object sender, RoutedEventArgs e)
         { 
             Frame.Navigate(typeof(MapPage),new Tuple<string,string,string>("createroute",From.Text,To.Text));
-
         }
     }
 }

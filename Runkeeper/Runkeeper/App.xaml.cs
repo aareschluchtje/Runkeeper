@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Runkeeper.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,9 +26,13 @@ namespace Runkeeper
     sealed partial class App : Application
     {
         private Frame rootFrame;
+        public Transfer transfer;
+        public static App instance;
 
         public App()
         {
+            this.transfer = new Transfer(new DataHandler());
+            instance = this;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -46,7 +51,7 @@ namespace Runkeeper
                 this.DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
-            DataHandler.loadData();
+            transfer.data.loadData();
             rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -99,7 +104,7 @@ namespace Runkeeper
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            DataHandler.saveData();
+            transfer.data.saveData();
             deferral.Complete();
         }
     }
