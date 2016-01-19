@@ -52,7 +52,7 @@
         </StackPanel>
 
 
-        <StackPanel Name="afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Name="Afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="{Binding totaldistance}" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 

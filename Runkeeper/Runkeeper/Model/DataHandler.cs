@@ -24,7 +24,7 @@ namespace Runkeeper
         public MapPolyline calculatedRoute;
         public Geopoint startposition;
         public string from, to;
-        public double totaldistance;
+        public List<double> totaldistances = new List<double>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,12 +33,12 @@ namespace Runkeeper
             walkedRoutes.Add(currentwalkedRoute);
             currentwalkedRoute = new List<DataStamp>();
             List<string> list = new List<string>();
-            foreach (List<DataStamp> route in walkedRoutes)
+            for (int v = 0; v < walkedRoutes.Count; v++)
             {
-                list.Add("route");
-                for (int i = 0; i < route.Count; i++)
+                list.Add("route" + "|" + totaldistances[v]);
+                for (int i = 0; i < walkedRoutes[v].Count; i++)
                 {
-                    list.Add(route[i].location.Position.Latitude + "|" + route[i].location.Position.Longitude + "|" + route[i].time.ToString() + "|" + route[i].speed + "|" + route[i].distance);
+                    list.Add(walkedRoutes[v][i].location.Position.Latitude + "|" + walkedRoutes[v][i].location.Position.Longitude + "|" + walkedRoutes[v][i].time.ToString() + "|" + walkedRoutes[v][i].speed + "|" + walkedRoutes[v][i].distance);
                 }
             }
             File.WriteAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt", list);
@@ -52,7 +52,7 @@ namespace Runkeeper
                 string[] list = File.ReadAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt");
                 for (int i = 0; i < list.Length; i++)
                 {
-                    if (!list[i].Equals("route"))
+                    if (!list[i].StartsWith("route"))
                     {
                         string[] items = list[i].Split('|');
                         Geopoint point = new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) });
@@ -62,18 +62,21 @@ namespace Runkeeper
                     else
                     {
                         walkedRoutes.Add(new List<DataStamp>());
+                        string[] items = list[i].Split('|');
+                        totaldistances.Add(Double.Parse(items[1]));
                     }
                 }
                 Debug.WriteLine(walkedRoutes);
             }
+            totaldistances.Add(0);
         }
 
-        public async Task<double> calculateDistance(Geopoint start, Geopoint end)
+        public async Task<double> calculateUpdateDistance(Geopoint start, Geopoint end)
         {
             MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
             MapRoute b = routeResult.Route;
             double distance = b.LengthInMeters;
-            totaldistance += distance;
+            totaldistances[totaldistances.Count-1] += distance;
             return distance;
         }
 

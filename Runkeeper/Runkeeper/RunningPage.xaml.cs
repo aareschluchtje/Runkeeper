@@ -31,14 +31,14 @@ namespace Runkeeper
             time = new Time();
             datahandeler = new DataHandler();
             this.DataContext = time;
-            afstand.DataContext = datahandeler;
-            // lol.Text = time.stopwatch.Elapsed.Seconds.ToString();
+            Afstand.DataContext = datahandeler;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
                 time.timer.Stop();
             time.ResetStopWatch();
+            App.instance.transfer.data.saveData();
         }
 
         private void START_Click(object sender, RoutedEventArgs e)

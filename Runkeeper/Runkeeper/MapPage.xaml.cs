@@ -66,7 +66,7 @@ namespace Runkeeper
             });
         }
 
-        private void currentLocation(Geoposition position)
+        private async void currentLocation(Geoposition position)
         {
             MapControl1.Center = position.Coordinate.Point;
             App.instance.transfer.data.currentposition = new MapIcon();
@@ -75,7 +75,15 @@ namespace Runkeeper
 
             App.instance.transfer.data.currentposition.ZIndex = 3;
 
-            App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
+            if (App.instance.transfer.data.currentwalkedRoute.Count != 0)
+            {
+                double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].location, position.Coordinate.Point);
+                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, distance));
+            }
+            else
+            {
+                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
+            }
 
             UpdateWalkedRoute();
         }
