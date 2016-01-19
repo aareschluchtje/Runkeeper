@@ -31,6 +31,7 @@ namespace Runkeeper
             time = new Time();
             datahandeler = new DataHandler();
             this.DataContext = time;
+            afstand.DataContext = datahandeler;
             // lol.Text = time.stopwatch.Elapsed.Seconds.ToString();
         }
 
