@@ -25,8 +25,13 @@ namespace Runkeeper
         public Geopoint startposition;
         public string from, to;
         public List<double> totaldistances = new List<double>();
-        public string currentDistance;
+        public string currentDistance { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public DataHandler()
+        {
+            currentDistance = "0";
+        }
 
         public void saveData()
         {
