@@ -78,7 +78,10 @@ namespace Runkeeper
             if (App.instance.transfer.data.currentwalkedRoute.Count != 0)
             {
                 double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].location, position.Coordinate.Point);
-                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, distance));
+                TimeSpan time = DateTime.Now.Subtract(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].time);
+                double speed = (distance / time.Seconds) * 3.6;
+                App.instance.transfer.data.currentSpeed = speed.ToString();
+                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
             }
             else
             {

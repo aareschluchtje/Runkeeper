@@ -26,11 +26,13 @@ namespace Runkeeper
         public string from, to;
         public List<double> totaldistances = new List<double>();
         public string currentDistance { get; set; }
+        public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DataHandler()
         {
             currentDistance = "0";
+            currentSpeed = "0";
         }
 
         public void saveData()

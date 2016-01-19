@@ -56,8 +56,8 @@
             <TextBlock Name="afstandtext" Text="{Binding currentDistance}" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <TextBlock Text=")0" Margin="60,0,0,0" FontSize="26"/>
+        <StackPanel Name="SpeedText" Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <TextBlock Text="{Binding currentSpeed}" Margin="60,0,0,0" FontSize="26"/>
         </StackPanel>
         
         <StackPanel Grid.Row="4" Grid.ColumnSpan="6" VerticalAlignment="Top">

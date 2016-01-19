@@ -30,6 +30,7 @@ namespace Runkeeper
             time = new Time();
             //this.DataContext = time;
             this.DataContext = App.instance.transfer.data;
+            SpeedText.DataContext = App.instance.transfer.data;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
