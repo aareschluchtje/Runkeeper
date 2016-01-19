@@ -25,7 +25,7 @@ namespace Runkeeper
         public Geopoint startposition;
         public string from, to;
         public List<double> totaldistances = new List<double>();
-
+        public double currentDistance;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void saveData()
@@ -69,6 +69,7 @@ namespace Runkeeper
                 Debug.WriteLine(walkedRoutes);
             }
             totaldistances.Add(0);
+            currentDistance = 0;
         }
 
         public async Task<double> calculateUpdateDistance(Geopoint start, Geopoint end)
@@ -77,6 +78,7 @@ namespace Runkeeper
             MapRoute b = routeResult.Route;
             double distance = b.LengthInMeters;
             totaldistances[totaldistances.Count-1] += distance;
+            currentDistance += distance;
             return distance;
         }
 

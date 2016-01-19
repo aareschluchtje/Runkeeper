@@ -52,8 +52,8 @@
         </StackPanel>
 
 
-        <StackPanel Name="Afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding totaldistance}" Margin="50,0,0,0" FontSize="26"/>
+        <StackPanel DataContext="" Name="Afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding currentDistance}" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >
