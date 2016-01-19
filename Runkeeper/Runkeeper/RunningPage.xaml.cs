@@ -31,7 +31,7 @@ namespace Runkeeper
             time = new Time();
             datahandeler = new DataHandler();
             this.DataContext = time;
-            Afstand.DataContext = datahandeler;
+            this.DataContext = datahandeler;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
