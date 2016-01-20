@@ -44,10 +44,10 @@ namespace Runkeeper
             List<TimeDistance> list = new List<TimeDistance>();
             foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
-                list.Add(new TimeDistance{ Time = data.time.ToString(), Distance = 2});
+                list.Add(new TimeDistance { Time = data.time.ToString(), Distance = data.distance });
             }
             (TimeChart.Series[0] as LineSeries).ItemsSource = list;
-        } 
+        }
 
         private void Ref_Click(object sender, RoutedEventArgs e)
         {
@@ -57,6 +57,6 @@ namespace Runkeeper
     public class TimeDistance
     {
         public string Time { get; set; }
-        public int Distance { get; set; }
+        public double Distance { get; set; }
     }
 }

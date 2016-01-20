@@ -10,7 +10,7 @@
 
     <Grid Background="Green">
         <Charting:Chart x:Name="TimeChart" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Height="630">
-            <Charting:LineSeries Background="White" Title="SmartPhone" Margin="0,0,-132,0" IndependentValuePath="Name" DependentValuePath="Amount" IsSelectionEnabled="True"/>
+            <Charting:LineSeries Background="White" Title="SmartPhone" Margin="0,0,-132,0" IndependentValuePath="Time" DependentValuePath="Distance" IsSelectionEnabled="True"/>
         </Charting:Chart>
         <Button Name="Ref" Click="Ref_Click" Width="100" Height="50" Content="refresh" VerticalAlignment="Top" HorizontalAlignment="Center"/>
     </Grid>
