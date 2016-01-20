@@ -22,6 +22,7 @@ using Windows.UI;
 using Windows.Services.Maps;
 using Runkeeper.Model;
 using System.ComponentModel;
+using Windows.Devices.Geolocation.Geofencing;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -48,10 +49,57 @@ namespace Runkeeper
             {
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
+            var geofences = GeofenceMonitor.Current.Geofences;
+
+            GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
+            GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
+
             var geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             geolocator.PositionChanged += Geolocator_PositionChanged;
             var position = await geolocator.GetGeopositionAsync();
             return position;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
+            GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
+
+            base.OnNavigatingFrom(e);
+        }
+
+        private void Current_StatusChanged(GeofenceMonitor sender, object args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                switch(sender.Status)
+                {
+                    case GeofenceMonitorStatus.Ready:
+                        //MainPage.NotifyUser("The monitor is ready and active.", NotifyType.StatusMessage);
+                        break;
+                }
+            });
+        }
+
+        private void createGeofence()
+        {
+            // Set the fence ID.
+            string fenceId = "fence1";
+
+            BasicGeoposition position = new BasicGeoposition{ Latitude = App.instance.transfer.data.currentposition.Location.Position.Latitude, Longitude = App.instance.transfer.data.currentposition.Location.Position.Longitude};
+            // Define the fence location and radius.
+            double radius = 10; // in meters
+
+            // Set a circular region for the geofence.
+            Geocircle geocircle = new Geocircle(position, radius);
+
+            // Create the geofence.
+            Geofence geofence = new Geofence(fenceId, geocircle);
         }
 
         private async void startTracking()
