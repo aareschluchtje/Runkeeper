@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -26,6 +27,7 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
+
         public DataPage()
         {
             this.InitializeComponent();
@@ -39,10 +41,13 @@ namespace Runkeeper
 
         private void LoadChartcontent()
         {
-            List<TimeDistance> list = new List<TimeDistance>();
+            double totalDistance = 0;
+            ObservableCollection<TimeDistance> list = new ObservableCollection<TimeDistance>();
             foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
-                list.Add(new TimeDistance { Time = data.time.Hour + ":" + data.time.Minute + ":" + data.time.Second, Distance = data.distance });
+                totalDistance += data.distance;
+                list.Add(new TimeDistance { Time = data.time.Hour + ":" + ":" + data.time.Minute + ":" + data.time.Second, Distance = totalDistance });
+                
             }
             (TimeChart.Series[0] as LineSeries).ItemsSource = list;
         }

@@ -98,6 +98,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HistoryRoutePage.xaml.cs">
+      <DependentUpon>HistoryRoutePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\DataHandler.cs" />
     <Compile Include="CreateRoute.xaml.cs">
       <DependentUpon>CreateRoute.xaml</DependentUpon>
@@ -132,6 +135,7 @@
     <None Include="Runkeeper_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HistoryImage.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
