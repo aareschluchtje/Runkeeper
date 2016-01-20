@@ -51,10 +51,10 @@
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Name="Groups">
+                        <ListBoxItem Name="historische">
                             <StackPanel Style="{StaticResource RunStackPanel}">
-                                <TextBlock Style="{StaticResource RunIcon}" Text="&#xEA8C;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Groups</TextBlock>
+                                <TextBlock Style="{StaticResource RunIcon}" Text="&#xE2AD;"/>
+                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">historische-Route</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 

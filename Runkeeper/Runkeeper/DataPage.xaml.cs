@@ -26,8 +26,6 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
-        public string time;
-        public double distance;
         public DataPage()
         {
             this.InitializeComponent();

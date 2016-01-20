@@ -61,9 +61,9 @@ namespace Runkeeper
             {
                 Frame.Navigate(typeof(DataPage));
             }
-            if (Groups.IsSelected)
+            if (historische.IsSelected)
             {
-                Frame.Navigate(typeof(GroupsPage));
+                Frame.Navigate(typeof(HistoryRoutePage));
             }
             if (Settings.IsSelected)
             {
