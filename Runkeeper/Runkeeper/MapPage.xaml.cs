@@ -76,6 +76,7 @@ namespace Runkeeper
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             App.instance.transfer.data.currentSpeed = position.Coordinate.Speed.ToString();
             double speed = Double.Parse(App.instance.transfer.data.currentSpeed);
+
             App.instance.transfer.data.currentposition.Title = "I am here";
 
             App.instance.transfer.data.currentposition.ZIndex = 3;

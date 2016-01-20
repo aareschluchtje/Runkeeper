@@ -41,12 +41,12 @@ namespace Runkeeper
 
         private void LoadChartcontent()
         {
-            /*foreach (var data in App.instance.transfer.data.currentwalkedRoute)
+            List<TimeDistance> list = new List<TimeDistance>();
+            foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
-                distance = data.distance;
-                time = data.time.ToString();
+                list.Add(new TimeDistance{ Time = data.time.ToString(), Distance = 2});
             }
-            (TimeChart.Series[0] as LineSeries).ItemsSource = App.instance.transfer.data.currentwalkedRoute;*/
+            (TimeChart.Series[0] as LineSeries).ItemsSource = list;
         } 
 
         private void Ref_Click(object sender, RoutedEventArgs e)
@@ -54,9 +54,9 @@ namespace Runkeeper
             LoadChartcontent();
         }
     }
-   /* public class TimeDistance
+    public class TimeDistance
     {
-        public string time;
-        public double distance;
-    }*/
+        public string Time { get; set; }
+        public int Distance { get; set; }
+    }
 }
