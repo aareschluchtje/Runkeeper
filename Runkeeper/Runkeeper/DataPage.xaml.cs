@@ -41,12 +41,12 @@ namespace Runkeeper
 
         private void LoadChartcontent()
         {
-            foreach (var data in App.instance.transfer.data.currentwalkedRoute)
+            /*foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
                 distance = data.distance;
                 time = data.time.ToString();
             }
-            (TimeChart.Series[0] as LineSeries).ItemsSource = App.instance.transfer.data.currentwalkedRoute;
+            (TimeChart.Series[0] as LineSeries).ItemsSource = App.instance.transfer.data.currentwalkedRoute;*/
         } 
 
         private void Ref_Click(object sender, RoutedEventArgs e)
