@@ -103,6 +103,7 @@ namespace Runkeeper
         {
             MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
             double distance = 0;
+	    Debug.WriteLine(start + " " + end);
             if(routeResult.Route != null)
             {
                 MapRoute b = routeResult.Route;
