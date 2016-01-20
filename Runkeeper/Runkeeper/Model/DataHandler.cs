@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -17,8 +18,8 @@ namespace Runkeeper
 {
     public class DataHandler : INotifyPropertyChanged
     {
-        public List<DataStamp> currentwalkedRoute = new List<DataStamp>();
-        public List<List<DataStamp>> walkedRoutes = new List<List<DataStamp>>();
+        public ObservableCollection<DataStamp> currentwalkedRoute = new ObservableCollection<DataStamp>();
+        public ObservableCollection<ObservableCollection<DataStamp>> walkedRoutes = new ObservableCollection<ObservableCollection<DataStamp>>();
         public Geolocator geolocator;
         public MapIcon currentposition;
         public MapPolyline calculatedRoute;
@@ -35,12 +36,17 @@ namespace Runkeeper
             currentSpeed = "0";
         }
 
+        public ObservableCollection<DataStamp> ItemsCollection
+        {
+            get { return currentwalkedRoute; }
+        }
+
         public void saveData()
         {
             walkedRoutes.Add(currentwalkedRoute);
             totaldistances.Add(double.Parse(currentDistance));
             currentDistance = "0";
-            currentwalkedRoute = new List<DataStamp>();
+            currentwalkedRoute = new ObservableCollection<DataStamp>();
             List<string> list = new List<string>();
             for (int v = 0; v < walkedRoutes.Count; v++)
             {
@@ -57,7 +63,7 @@ namespace Runkeeper
         {
             if (File.Exists(ApplicationData.Current.LocalFolder.Path + "//something.txt"))
             {
-                walkedRoutes = new List<List<DataStamp>>();
+                walkedRoutes = new ObservableCollection<ObservableCollection<DataStamp>>();
                 string[] list = File.ReadAllLines(ApplicationData.Current.LocalFolder.Path + "//something.txt");
                 for (int i = 0; i < list.Length; i++)
                 {
@@ -70,7 +76,7 @@ namespace Runkeeper
                     }
                     else
                     {
-                        walkedRoutes.Add(new List<DataStamp>());
+                        walkedRoutes.Add(new ObservableCollection<DataStamp>());
                         string[] items = list[i].Split('|');
                         totaldistances.Add(Double.Parse(items[1]));
                     }

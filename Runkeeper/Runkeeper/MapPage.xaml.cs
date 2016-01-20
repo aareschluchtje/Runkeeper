@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -36,7 +37,7 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            App.instance.transfer.data.currentwalkedRoute = new List<DataStamp>();
+            App.instance.transfer.data.currentwalkedRoute = new ObservableCollection<DataStamp>();
             startTracking();
         }
         
@@ -123,7 +124,7 @@ namespace Runkeeper
                     positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Longitude });
                 }
                 List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (List<DataStamp> route in App.instance.transfer.data.walkedRoutes)
+                foreach (ObservableCollection<DataStamp> route in App.instance.transfer.data.walkedRoutes)
                 {
                     foreach (DataStamp point in route)
                     {
