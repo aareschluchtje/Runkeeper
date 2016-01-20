@@ -26,6 +26,8 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
+        public string time;
+        public double distance;
         public DataPage()
         {
             this.InitializeComponent();
@@ -39,15 +41,12 @@ namespace Runkeeper
 
         private void LoadChartcontent()
         {
-            List<TimeDistance> list = new List<TimeDistance>();
-            foreach (List<DataStamp> data in App.instance.transfer.data.walkedRoutes)
+            foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
-                foreach(DataStamp datastamp in data)
-                {
-                    list.Add(new TimeDistance { time = datastamp.time.ToString() } );
-                }
+                distance = data.distance;
+                time = data.time.ToString();
             }
-            (TimeChart.Series[0] as LineSeries).ItemsSource = list;
+            (TimeChart.Series[0] as LineSeries).ItemsSource = App.instance.transfer.data.currentwalkedRoute;
         } 
 
         private void Ref_Click(object sender, RoutedEventArgs e)
@@ -55,9 +54,9 @@ namespace Runkeeper
             LoadChartcontent();
         }
     }
-    public class TimeDistance
+   /* public class TimeDistance
     {
         public string time;
         public double distance;
-    }
+    }*/
 }
