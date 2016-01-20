@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.Services.Maps;
 using Runkeeper.Model;
+using System.ComponentModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,6 +32,7 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class MapPage : Page
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public MapPage()
         {
             this.InitializeComponent();
@@ -82,6 +84,7 @@ namespace Runkeeper
                 TimeSpan time = DateTime.Now.Subtract(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].time);
                 double speed = (distance / time.Seconds) * 3.6;
                 App.instance.transfer.data.currentSpeed = speed.ToString();
+                NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
                 App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
             }
             else
@@ -90,6 +93,11 @@ namespace Runkeeper
             }
 
             UpdateWalkedRoute();
+        }
+
+        private void NotifyPropertyChanged(string v)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
         private void UpdateWalkedRoute()
