@@ -79,6 +79,26 @@ namespace Runkeeper
             }
         }
 
+        public string speedChanges(string speed)
+        {
+            for(int i = 0; i < currentwalkedRoute.Count; i++)
+            {
+                if (currentwalkedRoute.Count != 0)
+                {
+                    DataStamp item = currentwalkedRoute[currentwalkedRoute.Count - 1];
+                    currentSpeed = item.speed.ToString();
+                    currentSpeed = speed;
+                    NotifyPropertyChanged(nameof(currentSpeed));
+                }
+                else
+                {
+                    currentSpeed = "0";
+                }
+            }
+
+            return currentSpeed;
+        }
+
         public async Task<double> calculateUpdateDistance(Geopoint start, Geopoint end)
         {
             MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
