@@ -42,7 +42,7 @@ namespace Runkeeper
             List<TimeDistance> list = new List<TimeDistance>();
             foreach (var data in App.instance.transfer.data.currentwalkedRoute)
             {
-                list.Add(new TimeDistance { Time = data.time.ToString(), Distance = data.distance });
+                list.Add(new TimeDistance { Time = data.time.Hour + ":" + data.time.Minute + ":" + data.time.Second, Distance = data.distance });
             }
             (TimeChart.Series[0] as LineSeries).ItemsSource = list;
         }
