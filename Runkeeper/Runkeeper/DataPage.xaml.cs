@@ -26,8 +26,6 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
-        public string time;
-        public double distance;
         public DataPage()
         {
             this.InitializeComponent();
@@ -47,7 +45,7 @@ namespace Runkeeper
                 list.Add(new TimeDistance{ Time = data.time.ToString(), Distance = 2});
             }
             (TimeChart.Series[0] as LineSeries).ItemsSource = list;
-        } 
+        }
 
         private void Ref_Click(object sender, RoutedEventArgs e)
         {

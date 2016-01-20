@@ -106,9 +106,6 @@
       <DependentUpon>DataPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DataStamp.cs" />
-    <Compile Include="GroupsPage.xaml.cs">
-      <DependentUpon>GroupsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
@@ -157,11 +154,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GroupsPage.xaml">
+    <Page Include="HelpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HelpPage.xaml">
+    <Page Include="HistoryRoutePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
