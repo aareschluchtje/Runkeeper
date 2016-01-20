@@ -30,7 +30,7 @@ namespace Runkeeper
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MapPage : Page
+    public sealed partial class MapPage : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public MapPage()
@@ -74,8 +74,8 @@ namespace Runkeeper
             MapControl1.Center = position.Coordinate.Point;
             App.instance.transfer.data.currentposition = new MapIcon();
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
-            App.instance.transfer.data.currentSpeed = position.Coordinate.Speed.ToString();
-            double speed = Double.Parse(App.instance.transfer.data.currentSpeed);
+            double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
+            NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
 
             App.instance.transfer.data.currentposition.Title = "I am here";
 
@@ -86,6 +86,8 @@ namespace Runkeeper
                 double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].location, position.Coordinate.Point);
                 TimeSpan time = DateTime.Now.Subtract(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].time);
                 App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
+            
+
             }
             else
             {
