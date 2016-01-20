@@ -52,11 +52,11 @@
             <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
     </Grid>
-    <Page.BottomAppBar>
+    <!--<Page.BottomAppBar>
         <AppBar IsOpen="False" IsSticky="True">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <AppBarButton Icon="MapPin" Label="Location" Click="AppBarButton_Click"/>
             </StackPanel>
         </AppBar>
-    </Page.BottomAppBar>
+    </Page.BottomAppBar>-->
 </Page>

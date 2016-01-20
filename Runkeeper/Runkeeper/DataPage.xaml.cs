@@ -26,7 +26,6 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class DataPage : Page
     {
-        MapPage map;
         public DataPage()
         {
             this.InitializeComponent();
@@ -55,8 +54,6 @@ namespace Runkeeper
         {
             LoadChartcontent();
         }
-
-
     }
     public class TimeDistance
     {

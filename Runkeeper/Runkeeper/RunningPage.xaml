@@ -48,7 +48,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <TextBlock Text="MIN/KM" Margin="60,0,0,0"/>
+            <TextBlock Text="KM/H" Margin="60,0,0,0"/>
         </StackPanel>
 
 

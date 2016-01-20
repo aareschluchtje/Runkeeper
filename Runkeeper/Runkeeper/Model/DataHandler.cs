@@ -82,10 +82,13 @@ namespace Runkeeper
         public async Task<double> calculateUpdateDistance(Geopoint start, Geopoint end)
         {
             MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
-            MapRoute b = routeResult.Route;
-            double distance = b.LengthInMeters;
-            totaldistances[totaldistances.Count-1] += distance;
-            currentDistance = (double.Parse(currentDistance) + distance).ToString();
+            double distance = 0;
+            if(routeResult.Route != null)
+            {
+                MapRoute b = routeResult.Route;
+                distance = b.LengthInMeters;
+                currentDistance = (double.Parse(currentDistance) + distance).ToString();
+            }
             NotifyPropertyChanged(nameof(currentDistance));
             System.Diagnostics.Debug.WriteLine("Afstand " + currentDistance);
             return distance;

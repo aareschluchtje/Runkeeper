@@ -35,6 +35,7 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             App.instance.transfer.data.currentwalkedRoute = new List<DataStamp>();
+            startTracking();
         }
         
         public async Task<Geoposition> GetPosition()
@@ -139,8 +140,9 @@ namespace Runkeeper
                 {
                     MapControl1.MapElements.Add(oldline);
                 }
-                MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
             }
+            if(App.instance.transfer.data.currentposition != null)
+            MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
         }
 
         public async void FromToRoute(string from, string to)
@@ -205,11 +207,6 @@ namespace Runkeeper
             {
                 FromToRoute(value.Item2, value.Item3);
             }
-        }
-
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            startTracking();
         }
     }
 }
