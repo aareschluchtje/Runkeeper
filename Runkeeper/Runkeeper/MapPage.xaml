@@ -51,6 +51,18 @@
             <Button Style="{StaticResource ButtonStyleMapPage2}" Name="Activiteiten" Content="Activiteit" Click="Activiteiten_Click"/>
             <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
+
+        <Popup Margin="10,10,0,13" VerticalOffset="10" HorizontalOffset="200" Name="Popup1" IsOpen="False">
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="2" Width="200" Height="200">
+                <StackPanel>
+                    <TextBlock Name="McTextBlock" Text="text">
+                    </TextBlock>
+                    <Button Content="This is button on a Popup" />
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
     <!--<Page.BottomAppBar>
         <AppBar IsOpen="False" IsSticky="True">

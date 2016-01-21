@@ -36,6 +36,7 @@ namespace Runkeeper
     public sealed partial class MapPage : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public int fenceid = 0;
         public MapPage()
         {
             this.InitializeComponent();
@@ -62,6 +63,13 @@ namespace Runkeeper
 
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
+            //foreach(Route route in App.instance.transfer.data.walkedRoutes)
+            //{
+            //    for(int i = 0; i < route.route.Count; i++)
+            //    {
+            //        GeofenceMonitor.Current.Geofences.Add(createGeofence(route.route[i].location));
+            //    }
+            //}
 
             var geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             geolocator.PositionChanged += Geolocator_PositionChanged;
@@ -95,20 +103,22 @@ namespace Runkeeper
             });
         }
 
-        private void createGeofence()
+        private Geofence createGeofence(Geopoint location)
         {
             // Set the fence ID.
-            string fenceId = "fence1";
+            string fenceId = "fence" + location.Position + fenceid;
+            fenceid++;
 
-            BasicGeoposition position = new BasicGeoposition{ Latitude = App.instance.transfer.data.currentposition.Location.Position.Latitude, Longitude = App.instance.transfer.data.currentposition.Location.Position.Longitude};
+            BasicGeoposition position = new BasicGeoposition{ Latitude = location.Position.Latitude, Longitude = location.Position.Longitude};
             // Define the fence location and radius.
-            double radius = 10; // in meters
+            double radius = 20; // in meters
 
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);
 
             // Create the geofence.
             Geofence geofence = new Geofence(fenceId, geocircle);
+            return geofence;
         }
 
         private async void startTracking()
@@ -158,7 +168,10 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
-            MapControl1.MapElements.Clear();
+            while(MapControl1.MapElements.Count != 0)
+            {
+                MapControl1.MapElements.Clear();
+            }
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
                 Debug.WriteLine(App.instance.transfer.data.currentwalkedRoute.route.Count);
