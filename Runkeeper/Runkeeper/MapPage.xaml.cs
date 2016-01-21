@@ -24,6 +24,7 @@ using Windows.Services.Maps;
 using Runkeeper.Model;
 using System.ComponentModel;
 using Windows.Devices.Geolocation.Geofencing;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,10 +39,13 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            App.instance.transfer.data.currentwalkedRoute = new Route(DateTime.Now, new ObservableCollection<DataStamp>(), 0);
-            startTracking();
+            if(App.instance.transfer.data.currentwalkedRoute != null)
+            {
+                UpdateWalkedRoute();
+                startTracking();
+            }
         }
-        
+
         public async Task<Geoposition> GetPosition()
         {
             var accesStatus = await Geolocator.RequestAccessAsync();
@@ -152,6 +156,7 @@ namespace Runkeeper
         {
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
+                Debug.WriteLine(App.instance.transfer.data.currentwalkedRoute.route.Count);
                 MapPolyline currentline = new MapPolyline
                 {
                     StrokeThickness = 11,
