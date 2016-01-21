@@ -95,6 +95,8 @@ namespace Runkeeper
             });
         }
 
+        
+
         private void createGeofence()
         {
             // Set the fence ID.
@@ -128,7 +130,11 @@ namespace Runkeeper
 
         private async void currentLocation(Geoposition position)
         {
-            MapControl1.Center = position.Coordinate.Point;
+            if (App.instance.transfer.data.zoomCenter)
+            {
+                MapControl1.Center = position.Coordinate.Point;
+            }
+            
             App.instance.transfer.data.currentposition = new MapIcon();
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));

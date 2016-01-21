@@ -40,7 +40,7 @@
                         <ListBoxItem Name="RouteScreen">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE128;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">RouteScreen</TextBlock>
+                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">RouteScherm</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
@@ -61,7 +61,7 @@
                         <ListBoxItem Name="Settings">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE713;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Settings</TextBlock>
+                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Instelling</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
                         

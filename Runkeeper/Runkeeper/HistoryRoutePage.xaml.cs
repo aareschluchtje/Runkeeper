@@ -27,13 +27,6 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             data.DataContext = App.instance.transfer.data;
-
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            Button myButton = (Button)sender;
-            Route route = myButton.DataContext as Route;
         }
     }
 }

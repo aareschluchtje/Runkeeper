@@ -9,57 +9,22 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:controls="using:WinRTXamlToolkit.Controls"
     mc:Ignorable="d">
-<!--
-    <Grid Background="Black">
-        <ListView Margin="10" Name="data" ItemsSource="{Binding ItemsCollection}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <controls:WrapPanel>
-                        <TextBlock Text="Afstand : " />
-                        <TextBlock Text="{Binding distance}" FontWeight="Bold" />
-                        <TextBlock Text="Meters" />
-                        <TextBlock Text=" | " />
-                        <TextBlock Text="Tijd : " />
-                        <TextBlock Text="{Binding time}" FontWeight="Bold" />
-                        <TextBlock Text=" uur" />
-                    </controls:WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>-->
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Vertical">
-                <ListView Name="data" ItemsSource="{Binding Path=walkedRoutes}" Grid.Row="1" Margin="0,40,0,40">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate >
-                        <DataTemplate >
-                            <Grid x:Name="LampTile" Margin="6,6,6,20" >
-                                <Button Name="DataClick"  Width="150" Height="150" Click="ButtonBase_OnClick">
-                                    <StackPanel>
-                                        <TextBlock Name="textLocatie" Text="Locatie" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" ></TextBlock>
-                                        <TextBlock Text="Afstand : " VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding totalDistance}" FontWeight="Bold" HorizontalAlignment="Center" Margin="10,-20,0,0"/>
-                                        <TextBlock Text="Meters" HorizontalAlignment="Right" Margin="10,-20,0,0"/>
-                                        <TextBlock Text="Tijd : " VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding date}" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                        <TextBlock Text=" uur" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+        <Grid Background="Black">
+            <ListView Margin="10" Name="data" ItemsSource="{Binding walkedRoutes, Mode=TwoWay}" IsMultiSelectCheckBoxEnabled="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:WrapPanel>
+                            <TextBlock Text="Afstand :  " />
+                            <TextBlock Text="{Binding totalDistance, Mode=TwoWay}" FontWeight="Bold" />
+                            <TextBlock Text=" Meter  |" />
+                            <TextBlock Text=" Datum : " />
+                            <TextBlock Text="{Binding date, Mode=TwoWay}" FontWeight="Bold" />
+                        </controls:WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ScrollViewer>
 </Page>
