@@ -42,8 +42,12 @@ namespace Runkeeper
             if(App.instance.transfer.data.currentwalkedRoute != null)
             {
                 UpdateWalkedRoute();
+            }
+            if(App.instance.transfer.data.geolocator == null)
+            {
                 startTracking();
             }
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         public async Task<Geoposition> GetPosition()
@@ -154,6 +158,7 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
+            MapControl1.MapElements.Clear();
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
                 Debug.WriteLine(App.instance.transfer.data.currentwalkedRoute.route.Count);
@@ -189,8 +194,8 @@ namespace Runkeeper
                 {
                     oldline.Path = new Geopath(oldpositions);
                 }
-                
-                MapControl1.MapElements.Clear();
+                List<MapElement> list = MapControl1.MapElements.ToList();
+                Debug.WriteLine(list);
                 if(App.instance.transfer.data.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(App.instance.transfer.data.calculatedRoute);
@@ -263,11 +268,13 @@ namespace Runkeeper
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             var value = (Tuple<string, string,string>)e.Parameter;
             if(value.Item1.Equals("createroute"))
             {
                 FromToRoute(value.Item2, value.Item3);
             }
+            MapControl1.MapElements.Clear();
         }
     }
 }
