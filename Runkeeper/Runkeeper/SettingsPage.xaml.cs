@@ -26,5 +26,17 @@ namespace Runkeeper
         {
             this.InitializeComponent();
         }
+
+        private void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            if (SetOn.IsOn)
+            {
+                App.instance.transfer.data.zoomCenter = true;
+            }
+            else
+            {
+                App.instance.transfer.data.zoomCenter = false;
+            }
+        }
     }
 }

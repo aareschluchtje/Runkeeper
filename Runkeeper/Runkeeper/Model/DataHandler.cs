@@ -29,6 +29,7 @@ namespace Runkeeper
         public string currentDistance { get; set; }
         public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+        public bool zoomCenter;
 
         public DataHandler()
         {
