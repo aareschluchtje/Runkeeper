@@ -25,6 +25,7 @@ using Runkeeper.Model;
 using System.ComponentModel;
 using Windows.Devices.Geolocation.Geofencing;
 using System.Diagnostics;
+using Windows.Storage.Streams;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -145,14 +146,13 @@ namespace Runkeeper
             if(App.instance.transfer.data.currentposition == null)
             {
                 App.instance.transfer.data.currentposition = new MapIcon();
+                App.instance.transfer.data.currentposition.ZIndex = 3;
+                App.instance.transfer.data.currentposition.NormalizedAnchorPoint = new Point(0.5, 1.0);
+                App.instance.transfer.data.currentposition.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapIcon.png"));
             }
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
             NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
-
-            App.instance.transfer.data.currentposition.Title = "I am here";
-
-            App.instance.transfer.data.currentposition.ZIndex = 3;
 
             if (App.instance.transfer.data.currentwalkedRoute.route.Count != 0)
             {

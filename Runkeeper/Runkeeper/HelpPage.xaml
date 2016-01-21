@@ -67,7 +67,7 @@
                 <RelativePanel>
                     <TextBlock Style="{StaticResource HelpTextImage}" Name="Positietext" Text="Uw positie op de map wordt weergegeven door 
                                het icoon hiernaast"/>
-                    <Image Source="Assets/currentLocation.png" Style="{StaticResource HelpImageSmall}"/>
+                    <Image Source="Assets/MapIconHelp.png" Style="{StaticResource HelpImageSmall}"/>
                 </RelativePanel>
             </StackPanel>
 
