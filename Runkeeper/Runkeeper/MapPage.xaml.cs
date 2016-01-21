@@ -142,8 +142,10 @@ namespace Runkeeper
             {
                 MapControl1.Center = position.Coordinate.Point;
             }
-            
-            App.instance.transfer.data.currentposition = new MapIcon();
+            if(App.instance.transfer.data.currentposition == null)
+            {
+                App.instance.transfer.data.currentposition = new MapIcon();
+            }
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
             NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
@@ -172,10 +174,6 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
-            while(MapControl1.MapElements.Count != 0)
-            {
-                MapControl1.MapElements.Clear();
-            }
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
                 Debug.WriteLine(App.instance.transfer.data.currentwalkedRoute.route.Count);
@@ -224,8 +222,10 @@ namespace Runkeeper
                     MapControl1.MapElements.Add(oldline);
                 }
             }
-            if(App.instance.transfer.data.currentposition != null)
-            MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
+            if (App.instance.transfer.data.currentposition != null && !MapControl1.MapElements.Contains(App.instance.transfer.data.currentposition))
+            {
+                MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
+            }
         }
 
         public async void FromToRoute(string from, string to)

@@ -29,7 +29,7 @@ namespace Runkeeper
         public string currentDistance { get; set; }
         public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        public bool zoomCenter { get; set; }
+        public bool zoomCenter = true;
 
         public DataHandler()
         {
@@ -124,5 +124,16 @@ namespace Runkeeper
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public bool getZoomCenter()
+        {
+            return zoomCenter;
+        }
+
+        public void setZoomCenter(bool zoomCenter)
+        {
+            this.zoomCenter = zoomCenter;
+        }
+
     }
 }
