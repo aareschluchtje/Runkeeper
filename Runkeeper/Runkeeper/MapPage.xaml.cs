@@ -38,7 +38,7 @@ namespace Runkeeper
         public MapPage()
         {
             this.InitializeComponent();
-            App.instance.transfer.data.currentwalkedRoute = new ObservableCollection<DataStamp>();
+            App.instance.transfer.data.currentwalkedRoute = new Route(DateTime.Now, new ObservableCollection<DataStamp>(), 0);
             startTracking();
         }
         
@@ -130,14 +130,14 @@ namespace Runkeeper
 
             App.instance.transfer.data.currentposition.ZIndex = 3;
 
-            if (App.instance.transfer.data.currentwalkedRoute.Count != 0)
+            if (App.instance.transfer.data.currentwalkedRoute.route.Count != 0)
             {
-                double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute[App.instance.transfer.data.currentwalkedRoute.Count - 1].location, position.Coordinate.Point);
-                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
+                double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute.route[App.instance.transfer.data.currentwalkedRoute.route.Count - 1].location, position.Coordinate.Point);
+                App.instance.transfer.data.currentwalkedRoute.route.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
             }
             else
             {
-                App.instance.transfer.data.currentwalkedRoute.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
+                App.instance.transfer.data.currentwalkedRoute.route.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
             }
 
             UpdateWalkedRoute();
@@ -150,7 +150,7 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
-            if (App.instance.transfer.data.currentwalkedRoute.Count >= 2)
+            if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
                 MapPolyline currentline = new MapPolyline
                 {
@@ -167,16 +167,16 @@ namespace Runkeeper
                     ZIndex = 1
                 };
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
-                for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.Count; i++)
+                for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.route.Count; i++)
                 {
-                    positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute[i].location.Position.Longitude });
+                    positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Longitude });
                 }
                 List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (ObservableCollection<DataStamp> route in App.instance.transfer.data.walkedRoutes)
+                foreach (Route route in App.instance.transfer.data.walkedRoutes)
                 {
-                    foreach (DataStamp point in route)
+                    for (int i = 0; i < route.route.Count; i++)
                     {
-                        oldpositions.Add(new BasicGeoposition() { Latitude = point.location.Position.Latitude, Longitude = point.location.Position.Longitude });
+                        oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
                     }
                 }
                 currentline.Path = new Geopath(positions);

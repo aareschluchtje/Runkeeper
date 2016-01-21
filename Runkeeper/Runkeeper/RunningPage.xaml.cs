@@ -29,7 +29,7 @@ namespace Runkeeper
             this.InitializeComponent();
             time = new Time();
             SpeedText.DataContext = App.instance.transfer.data;
-            this.DataContext = time;
+            TimeBlock.DataContext = time;
             Afstand.DataContext = App.instance.transfer.data;
         }
 
@@ -37,7 +37,7 @@ namespace Runkeeper
         {
             time.timer.Stop();
             time.ResetStopWatch();
-            //App.instance.transfer.data.saveData();
+            App.instance.transfer.data.saveData();
         }
 
         private void START_Click(object sender, RoutedEventArgs e)

@@ -35,7 +35,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Vertical">
-                <ListView Name="data" ItemsSource="{Binding Path=ItemsCollection}" Grid.Row="1" Margin="0,40,0,40">
+                <ListView Name="data" ItemsSource="{Binding Path=walkedRoutes}" Grid.Row="1" Margin="0,40,0,40">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid Orientation="Horizontal"/>
@@ -48,10 +48,10 @@
                                     <StackPanel>
                                         <TextBlock Name="textLocatie" Text="Locatie" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" ></TextBlock>
                                         <TextBlock Text="Afstand : " VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding distance}" FontWeight="Bold" HorizontalAlignment="Center" Margin="10,-20,0,0"/>
+                                        <TextBlock Text="{Binding totalDistance}" FontWeight="Bold" HorizontalAlignment="Center" Margin="10,-20,0,0"/>
                                         <TextBlock Text="Meters" HorizontalAlignment="Right" Margin="10,-20,0,0"/>
                                         <TextBlock Text="Tijd : " VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding time}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding date}" FontWeight="Bold" HorizontalAlignment="Center"/>
                                         <TextBlock Text=" uur" HorizontalAlignment="Right"/>
                                     </StackPanel>
                                 </Button>

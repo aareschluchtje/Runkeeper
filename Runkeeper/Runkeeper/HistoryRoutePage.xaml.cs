@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Runkeeper.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace Runkeeper
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             Button myButton = (Button)sender;
-            DataHandler dt = myButton.DataContext as DataHandler;
+            Route route = myButton.DataContext as Route;
         }
     }
 }
