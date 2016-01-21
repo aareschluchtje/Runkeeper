@@ -7,7 +7,79 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="StackPanel" x:Key="HelpPanel">
+            <Setter Property="Margin" Value="10,10,10,0" />
+            <Setter Property="Padding" Value="0,0,0,10" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+        </Style>
 
-    </Grid>
+        <Style TargetType="TextBlock" x:Key="HelpText">
+            <Setter Property="RelativePanel.AlignTopWithPanel" Value="True" />
+            <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />
+            <Setter Property="TextAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="HelpTextImage">
+            <Setter Property="RelativePanel.AlignTopWithPanel" Value="True" />
+            <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />
+            <Setter Property="Margin" Value="0,0,60,0" />
+            <Setter Property="TextAlignment" Value="Left" />
+        </Style>
+
+        <Style TargetType="Image" x:Key="HelpImageSmall">
+            <Setter Property="RelativePanel.AlignRightWithPanel" Value="True" />
+            <Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="True" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Stretch" Value="UniformToFill"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="HelpImageLarge">
+            <Setter Property="Stretch" Value="UniformToFill"/>
+            <Setter Property="Margin" Value="0,5,0,0" />
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="Header">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,0,3" />
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled" VerticalSnapPointsAlignment="Near">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Style="{ StaticResource HelpPanel}">
+                <TextBlock HorizontalAlignment="Left" Name="Positie" Text="Positie" Style="{StaticResource Header}"/>
+                <RelativePanel>
+                    <TextBlock Style="{StaticResource HelpTextImage}" Name="Positietext" Text="Uw positie op de map wordt weergegeven door 
+                               het icoon hiernaast"/>
+                    <Image Source="Assets/currentLocation.png" Style="{StaticResource HelpImageSmall}"/>
+                </RelativePanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Style="{ StaticResource HelpPanel}">
+                <TextBlock HorizontalAlignment="Left" Name="Menu" Text="Menu" Style="{StaticResource Header}"/>
+                <RelativePanel>
+                    <TextBlock Style="{StaticResource HelpText}" Name="Menutext" Text="U kunt het menu openen door op het icoontje links boven het scherm te tikken. U kunt de menu ook doormiddel van swipen openen, dat kunt u doen door vanaf de rechterkant van de scherm te swipen. U kunt binnen het menu uit 5 opties kiezen, Kaart,Grafiek, Instellingen, Hulp, Historische route."/>
+                </RelativePanel>
+                <Image Source="Assets/hulp.png" Style="{StaticResource HelpImageLarge}"/>
+            </StackPanel>
+
+
+        </Grid>
+    </ScrollViewer>
 </Page>
