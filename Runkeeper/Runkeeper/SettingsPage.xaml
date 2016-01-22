@@ -24,15 +24,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">
             <ToggleSwitch Name="SetOn" Toggled="ToggleSwitch_OnToggled">
                 <ToggleSwitch.OffContent>Off</ToggleSwitch.OffContent>
                 <ToggleSwitch.OnContent>On</ToggleSwitch.OnContent>
                     </ToggleSwitch>
+            <ToggleSwitch Name="SetOld" Toggled="SetOld_Toggled">
+                <ToggleSwitch.OffContent>Off</ToggleSwitch.OffContent>
+                <ToggleSwitch.OnContent>On</ToggleSwitch.OnContent>
+            </ToggleSwitch>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Zoom :" FontSize="20"/>
+            <TextBlock Text="Old Routes :" FontSize="20"/>
         </StackPanel>
     </Grid>
 </Page>

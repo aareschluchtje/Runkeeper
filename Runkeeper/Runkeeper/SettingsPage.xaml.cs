@@ -26,6 +26,7 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             SetOn.IsOn = App.instance.transfer.data.zoomCenter;
+            SetOld.IsOn = App.instance.transfer.data.drawOld;
         }
 
         private void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
@@ -37,6 +38,18 @@ namespace Runkeeper
             else
             {
                 App.instance.transfer.data.setZoomCenter(false);
+            }
+        }
+
+        private void SetOld_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (SetOld.IsOn)
+            {
+                App.instance.transfer.data.setDrawOld(true);
+            }
+            else
+            {
+                App.instance.transfer.data.setDrawOld(false);
             }
         }
     }

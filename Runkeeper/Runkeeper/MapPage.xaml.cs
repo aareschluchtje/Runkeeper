@@ -40,7 +40,6 @@ namespace Runkeeper
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public int fenceid = 0;
-        private BackgroundTaskRegistration geofenceTask;
 
         public MapPage()
         {
@@ -94,13 +93,13 @@ namespace Runkeeper
             return position;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
-            GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
+        //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        //{
+        //    GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
+        //    GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
 
-            base.OnNavigatingFrom(e);
-        }
+        //    base.OnNavigatingFrom(e);
+        //}
 
         private async void Current_StatusChanged(GeofenceMonitor sender, object args)
         {
@@ -159,16 +158,16 @@ namespace Runkeeper
 
             bool singleUse = false;
 
-            MonitoredGeofenceStates monitoredStates =
-                MonitoredGeofenceStates.Entered |
-                MonitoredGeofenceStates.Exited |
-                MonitoredGeofenceStates.Removed;
+            MonitoredGeofenceStates mask = 0;
+
+            mask |= MonitoredGeofenceStates.Entered;
+            mask |= MonitoredGeofenceStates.Exited;
 
             TimeSpan dwellTime = TimeSpan.FromSeconds(1);
             TimeSpan duration = TimeSpan.FromDays(1);
             DateTimeOffset startTime = DateTime.Now;
             // Create the geofence.
-            Geofence geofence = new Geofence(fenceId, geocircle, monitoredStates, singleUse, dwellTime, startTime, duration);
+            Geofence geofence = new Geofence(fenceId, geocircle, mask, singleUse, dwellTime, startTime, duration);
             return geofence;
         }
 
@@ -226,6 +225,29 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
+            List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
+            foreach (Route route in App.instance.transfer.data.walkedRoutes)
+            {
+                for (int i = 0; i < route.route.Count; i++)
+                {
+                    oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
+                }
+            }
+            if (oldpositions.Count != 0)
+            {
+                MapPolyline oldline = new MapPolyline
+                {
+                    StrokeThickness = 11,
+                    StrokeColor = Colors.Gray,
+                    StrokeDashed = false,
+                    ZIndex = 1
+                };
+                oldline.Path = new Geopath(oldpositions);
+                if (oldline.Path != null)
+                {
+                    MapControl1.MapElements.Add(oldline);
+                }
+            }
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
                 MapPolyline currentline = new MapPolyline
@@ -235,41 +257,17 @@ namespace Runkeeper
                     StrokeDashed = false,
                     ZIndex = 2
                 };
-                MapPolyline oldline = new MapPolyline
-                {
-                    StrokeThickness = 11,
-                    StrokeColor = Colors.Gray,
-                    StrokeDashed = false,
-                    ZIndex = 1
-                };
                 List<BasicGeoposition> positions = new List<BasicGeoposition>();
                 for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.route.Count; i++)
                 {
                     positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Longitude });
                 }
-                List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (Route route in App.instance.transfer.data.walkedRoutes)
-                {
-                    for (int i = 0; i < route.route.Count; i++)
-                    {
-                        oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
-                    }
-                }
                 currentline.Path = new Geopath(positions);
-                if(oldpositions.Count != 0)
-                {
-                    oldline.Path = new Geopath(oldpositions);
-                }
                 if(App.instance.transfer.data.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(App.instance.transfer.data.calculatedRoute);
                 }
                 MapControl1.MapElements.Add(currentline);
-
-                if(oldline.Path != null)
-                {
-                    MapControl1.MapElements.Add(oldline);
-                }
             }
             if (App.instance.transfer.data.currentposition != null && !MapControl1.MapElements.Contains(App.instance.transfer.data.currentposition))
             {
