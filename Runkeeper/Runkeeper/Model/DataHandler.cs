@@ -47,7 +47,7 @@ namespace Runkeeper
             List<string> list = new List<string>();
             for (int v = 0; v < walkedRoutes.Count; v++)
             {
-                list.Add("route" + "|" + walkedRoutes[v].totalDistance);
+                list.Add("route" + "|" + walkedRoutes[v].totalDistance + "|" + walkedRoutes[v].date.ToString());
                 for (int i = 0; i < walkedRoutes[v].route.Count; i++)
                 {
                     list.Add(walkedRoutes[v].route[i].location.Position.Latitude + "|" + walkedRoutes[v].route[i].location.Position.Longitude + "|"
@@ -77,6 +77,7 @@ namespace Runkeeper
                         walkedRoutes.Add(new Route(DateTime.Now, new ObservableCollection<DataStamp>(), 0));
                         string[] items = list[i].Split('|');
                         walkedRoutes[walkedRoutes.Count-1].totalDistance = Double.Parse(items[1]);
+                        walkedRoutes[walkedRoutes.Count - 1].date = DateTime.Parse(items[2]);
                     }
                 }
                 Debug.WriteLine(walkedRoutes);

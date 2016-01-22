@@ -26,6 +26,8 @@ using System.ComponentModel;
 using Windows.Devices.Geolocation.Geofencing;
 using System.Diagnostics;
 using Windows.Storage.Streams;
+using Windows.ApplicationModel.Background;
+using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,6 +40,8 @@ namespace Runkeeper
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public int fenceid = 0;
+        private BackgroundTaskRegistration geofenceTask;
+
         public MapPage()
         {
             this.InitializeComponent();
@@ -63,7 +67,6 @@ namespace Runkeeper
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
             Debug.WriteLine(GeofenceMonitor.Current.Status);
-
             foreach (Route route in App.instance.transfer.data.walkedRoutes)
             {
                 for (int i = 0; i < route.route.Count; i++)
@@ -149,12 +152,12 @@ namespace Runkeeper
 
             BasicGeoposition position = new BasicGeoposition{ Latitude = location.Position.Latitude, Longitude = location.Position.Longitude};
             // Define the fence location and radius.
-            double radius = 20; // in meters
+            double radius = 200; // in meters
 
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);
 
-            bool singleUse = true;
+            bool singleUse = false;
 
             MonitoredGeofenceStates monitoredStates =
                 MonitoredGeofenceStates.Entered |
@@ -197,6 +200,8 @@ namespace Runkeeper
                 App.instance.transfer.data.currentposition.NormalizedAnchorPoint = new Point(0.5, 1.0);
                 App.instance.transfer.data.currentposition.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapIcon.png"));
             }
+            List<Geofence> list = GeofenceMonitor.Current.Geofences.ToList();
+            Debug.WriteLine(list);
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
             NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
@@ -269,6 +274,41 @@ namespace Runkeeper
             if (App.instance.transfer.data.currentposition != null && !MapControl1.MapElements.Contains(App.instance.transfer.data.currentposition))
             {
                 MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
+            }
+        }
+
+        async private void OnCompleted(IBackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)
+        {
+            if (sender != null)
+            {
+                // Update the UI with progress reported by the background task.
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    try
+                    {
+                        // If the background task threw an exception, display the exception in
+                        // the error text box.
+                        e.CheckResult();
+
+                        // Update the UI with the completion status of the background task.
+                        // The Run method of the background task sets the LocalSettings. 
+                        var settings = ApplicationData.Current.LocalSettings;
+
+                        // Get the status.
+                        if (settings.Values.ContainsKey("Status"))
+                        {
+                           Debug.WriteLine(settings.Values["Status"].ToString());
+                        }
+
+                        // Do your app work here.
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // The background task had an error.
+                        Debug.WriteLine(ex.ToString());
+                    }
+                });
             }
         }
 
