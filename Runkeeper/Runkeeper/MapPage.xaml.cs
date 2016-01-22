@@ -61,12 +61,13 @@ namespace Runkeeper
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
             var geofences = GeofenceMonitor.Current.Geofences;
-
+            List<Geofence> list = geofences.ToList();
+            Debug.WriteLine(list);
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
-            //foreach(Route route in App.instance.transfer.data.walkedRoutes)
+            //foreach (Route route in App.instance.transfer.data.walkedRoutes)
             //{
-            //    for(int i = 0; i < route.route.Count; i++)
+            //    for (int i = 0; i < route.route.Count; i++)
             //    {
             //        GeofenceMonitor.Current.Geofences.Add(createGeofence(route.route[i].location));
             //    }
@@ -107,7 +108,7 @@ namespace Runkeeper
         private Geofence createGeofence(Geopoint location)
         {
             // Set the fence ID.
-            string fenceId = "fence" + location.Position + fenceid;
+            string fenceId = "fence" + location.Position.Latitude + location.Position.Longitude + fenceid;
             fenceid++;
 
             BasicGeoposition position = new BasicGeoposition{ Latitude = location.Position.Latitude, Longitude = location.Position.Longitude};
@@ -235,6 +236,7 @@ namespace Runkeeper
 
             MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(from, MapControl1.Center);
             MapLocation from1 = result.Locations.First();
+            MapControl1.Center = from1.Point;
 
             result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
 
@@ -252,6 +254,8 @@ namespace Runkeeper
                 ZIndex = 2
             };
             App.instance.transfer.data.calculatedRoute.Path = new Geopath(map1.Path.Positions);
+
+            UpdateWalkedRoute();
         }
 
         public static async Task<MapLocation> FindLocation(string location, Geopoint reference)

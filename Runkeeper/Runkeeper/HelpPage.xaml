@@ -78,8 +78,6 @@
                 </RelativePanel>
                 <Image Source="Assets/hulp.png" Style="{StaticResource HelpImageLarge}"/>
             </StackPanel>
-
-
         </Grid>
     </ScrollViewer>
 </Page>
