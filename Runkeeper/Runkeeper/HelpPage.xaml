@@ -74,7 +74,7 @@
             <StackPanel Grid.Row="1" Style="{ StaticResource HelpPanel}">
                 <TextBlock HorizontalAlignment="Left" Name="Menu" Text="Menu" Style="{StaticResource Header}"/>
                 <RelativePanel>
-                    <TextBlock Style="{StaticResource HelpText}" Name="Menutext" Text="U kunt het menu openen door op het icoontje links boven het scherm te tikken. U kunt de menu ook doormiddel van swipen openen, dat kunt u doen door vanaf de rechterkant van de scherm te swipen. U kunt binnen het menu uit 5 opties kiezen, Kaart,Grafiek, Instellingen, Hulp, Historische route."/>
+                    <TextBlock Style="{StaticResource HelpText}" Name="Menutext" Text="U kunt het menu openen door op het icoontje links boven het scherm te tikken. U kunt het menu ook doormiddel van swipen openen, dat kunt u doen door vanaf de rechterkant van het scherm te swipen. U kunt binnen het menu uit 5 opties kiezen, Kaart,Grafiek, Instellingen, Hulp, Historische route."/>
                 </RelativePanel>
                 <Image Source="Assets/hulp.png" Style="{StaticResource HelpImageLarge}"/>
             </StackPanel>

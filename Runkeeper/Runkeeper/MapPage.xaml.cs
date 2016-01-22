@@ -225,27 +225,30 @@ namespace Runkeeper
 
         private void UpdateWalkedRoute()
         {
-            List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-            foreach (Route route in App.instance.transfer.data.walkedRoutes)
+            if(App.instance.transfer.data.drawOld)
             {
-                for (int i = 0; i < route.route.Count; i++)
+                List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
+                foreach (Route route in App.instance.transfer.data.walkedRoutes)
                 {
-                    oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
+                    for (int i = 0; i < route.route.Count; i++)
+                    {
+                        oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
+                    }
                 }
-            }
-            if (oldpositions.Count != 0)
-            {
-                MapPolyline oldline = new MapPolyline
+                if (oldpositions.Count != 0)
                 {
-                    StrokeThickness = 11,
-                    StrokeColor = Colors.Gray,
-                    StrokeDashed = false,
-                    ZIndex = 1
-                };
-                oldline.Path = new Geopath(oldpositions);
-                if (oldline.Path != null)
-                {
-                    MapControl1.MapElements.Add(oldline);
+                    MapPolyline oldline = new MapPolyline
+                    {
+                        StrokeThickness = 11,
+                        StrokeColor = Colors.Gray,
+                        StrokeDashed = false,
+                        ZIndex = 1
+                    };
+                    oldline.Path = new Geopath(oldpositions);
+                    if (oldline.Path != null)
+                    {
+                        MapControl1.MapElements.Add(oldline);
+                    }
                 }
             }
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)

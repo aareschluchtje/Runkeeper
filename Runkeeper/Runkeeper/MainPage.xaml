@@ -54,14 +54,14 @@
                         <ListBoxItem Name="historische">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE2AD;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">historische-Route</TextBlock>
+                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Historische-Route</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
                         <ListBoxItem Name="Settings">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE713;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Instelling</TextBlock>
+                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Instellingen</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
                         
