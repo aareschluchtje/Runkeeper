@@ -31,7 +31,7 @@ namespace Runkeeper
         public HistoryRoutePage()
         {
             this.InitializeComponent();
-            data.DataContext = App.instance.transfer.data;
+
         }
 
         public void orderbyDistance()
@@ -43,6 +43,7 @@ namespace Runkeeper
             App.instance.transfer.data.walkedRoutes = new ObservableCollection<Route>(order);
             ;
             PrintRoute<Route>("distance order: ", App.instance.transfer.data.walkedRoutes);
+            data.DataContext = App.instance.transfer.data;
         }
 
         public void orderbyTime()
@@ -54,6 +55,7 @@ namespace Runkeeper
             App.instance.transfer.data.walkedRoutes = new ObservableCollection<Route>(order);
             
             PrintRoute<Route>("distance order: ", App.instance.transfer.data.walkedRoutes);
+            data.DataContext = App.instance.transfer.data;
         }
 
         static void PrintRoute<T>(string title, IEnumerable<T> Routes)
@@ -67,13 +69,11 @@ namespace Runkeeper
 
         private void SortDistance_OnClick(object sender, RoutedEventArgs e)
         {
-            NotifyPropertyChanged(nameof(App.instance.transfer.data.walkedRoutes));
             orderbyDistance();
         }
 
         private void SortDate_OnClick(object sender, RoutedEventArgs e)
         {
-            NotifyPropertyChanged(nameof(App.instance.transfer.data.walkedRoutes));
             orderbyTime();
         }
 
