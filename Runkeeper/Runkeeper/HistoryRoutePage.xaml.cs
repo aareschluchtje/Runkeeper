@@ -1,6 +1,7 @@
 ﻿using Runkeeper.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,6 +28,26 @@ namespace Runkeeper
         {
             this.InitializeComponent();
             data.DataContext = App.instance.transfer.data;
+            orderbyDistance();
+        }
+
+        public void orderbyDistance()
+        {
+            var allBooks = from Route in App.instance.transfer.data.walkedRoutes select Route;
+            var order = from Route in App.instance.transfer.data.walkedRoutes
+                orderby Route.totalDistance descending
+                select Route;
+            PrintRoute("distance order: ", allBooks);
+
+        }
+
+        static void PrintRoute<Route>(string title, IEnumerable<Route> Routes)
+        {
+            Debug.WriteLine("{0}:", title);
+            foreach (Route routes in Routes)
+            {
+                Debug.WriteLine(routes.ToString());
+            }
         }
     }
 }
