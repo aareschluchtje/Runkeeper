@@ -36,17 +36,17 @@ namespace Runkeeper
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MapPage : Page, INotifyPropertyChanged
+    public sealed partial class MapPage : Page
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public int fenceid = 0;
+        private MapHelper maphelper = new MapHelper();
+        private MapPolyline oldline;
 
         public MapPage()
         {
             this.InitializeComponent();
-            if(App.instance.transfer.data.currentwalkedRoute != null)
+            if(App.instance.transfer.data.currentposition != null && App.instance.transfer.data.currentwalkedRoute != null)
             {
-                UpdateWalkedRoute();
+                UpdateWalkedRoute(App.instance.transfer.data.currentposition.Location);
             }
             if(App.instance.transfer.data.geolocator == null)
             {
@@ -70,7 +70,7 @@ namespace Runkeeper
             {
                 for (int i = 0; i < route.route.Count; i++)
                 {
-                    Geofence geofence = createGeofence(route.route[i].location);
+                    Geofence geofence = GeofenceHandler.createGeofence(route.route[i].location);
                     List<Geofence> geofences = GeofenceMonitor.Current.Geofences.ToList();
                     bool equal = false;
                     foreach (Geofence something in geofences)
@@ -128,7 +128,6 @@ namespace Runkeeper
                     }
                 }
             });
-
         }
 
         private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
@@ -143,34 +142,6 @@ namespace Runkeeper
             });
         }
 
-        private Geofence createGeofence(Geopoint location)
-        {
-            // Set the fence ID.
-            string fenceId = "fence" + location.Position.Latitude + location.Position.Longitude + fenceid;
-            fenceid++;
-
-            BasicGeoposition position = new BasicGeoposition{ Latitude = location.Position.Latitude, Longitude = location.Position.Longitude};
-            // Define the fence location and radius.
-            double radius = 200; // in meters
-
-            // Set a circular region for the geofence.
-            Geocircle geocircle = new Geocircle(position, radius);
-
-            bool singleUse = false;
-
-            MonitoredGeofenceStates mask = 0;
-
-            mask |= MonitoredGeofenceStates.Entered;
-            mask |= MonitoredGeofenceStates.Exited;
-
-            TimeSpan dwellTime = TimeSpan.FromSeconds(1);
-            TimeSpan duration = TimeSpan.FromDays(1);
-            DateTimeOffset startTime = DateTime.Now;
-            // Create the geofence.
-            Geofence geofence = new Geofence(fenceId, geocircle, mask, singleUse, dwellTime, startTime, duration);
-            return geofence;
-        }
-
         private async void startTracking()
         {
             MapControl1.ZoomLevel = 16;
@@ -180,97 +151,35 @@ namespace Runkeeper
 
         private async void Geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                currentLocation(args.Position);
+                Geoposition x = await maphelper.currentLocation(args.Position);
+                UpdateWalkedRoute(x.Coordinate.Point);
             });
+
         }
 
-        private async void currentLocation(Geoposition position)
+        private void UpdateWalkedRoute(Geopoint point)
         {
             if (App.instance.transfer.data.zoomCenter)
             {
-                MapControl1.Center = position.Coordinate.Point;
+                MapControl1.Center = point;
             }
-            if(App.instance.transfer.data.currentposition == null)
+            if (App.instance.transfer.data.drawOld && !MapControl1.MapElements.Contains(oldline) && App.instance.transfer.data.walkedRoutes.Count > 0)
             {
-                App.instance.transfer.data.currentposition = new MapIcon();
-                App.instance.transfer.data.currentposition.ZIndex = 3;
-                App.instance.transfer.data.currentposition.NormalizedAnchorPoint = new Point(0.5, 1.0);
-                App.instance.transfer.data.currentposition.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapIcon.png"));
-            }
-            List<Geofence> list = GeofenceMonitor.Current.Geofences.ToList();
-            Debug.WriteLine(list);
-            App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
-            double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
-            NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));
-
-            if (App.instance.transfer.data.currentwalkedRoute.route.Count != 0)
-            {
-                double distance = await App.instance.transfer.data.calculateUpdateDistance(App.instance.transfer.data.currentwalkedRoute.route[App.instance.transfer.data.currentwalkedRoute.route.Count - 1].location, position.Coordinate.Point);
-                App.instance.transfer.data.currentwalkedRoute.route.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, speed, distance));
-            }
-            else
-            {
-                App.instance.transfer.data.currentwalkedRoute.route.Add(new DataStamp(position.Coordinate.Point, DateTime.Now, 0, 0));
-            }
-
-            UpdateWalkedRoute();
-        }
-
-        private void NotifyPropertyChanged(string v)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
-        }
-
-        private void UpdateWalkedRoute()
-        {
-            if(App.instance.transfer.data.drawOld)
-            {
-                List<BasicGeoposition> oldpositions = new List<BasicGeoposition>();
-                foreach (Route route in App.instance.transfer.data.walkedRoutes)
+                this.oldline = maphelper.generateOldRoute();
+                if (oldline.Path != null)
                 {
-                    for (int i = 0; i < route.route.Count; i++)
-                    {
-                        oldpositions.Add(new BasicGeoposition() { Latitude = route.route[i].location.Position.Latitude, Longitude = route.route[i].location.Position.Longitude });
-                    }
-                }
-                if (oldpositions.Count != 0)
-                {
-                    MapPolyline oldline = new MapPolyline
-                    {
-                        StrokeThickness = 11,
-                        StrokeColor = Colors.Gray,
-                        StrokeDashed = false,
-                        ZIndex = 1
-                    };
-                    oldline.Path = new Geopath(oldpositions);
-                    if (oldline.Path != null)
-                    {
-                        MapControl1.MapElements.Add(oldline);
-                    }
+                    MapControl1.MapElements.Add(oldline);
                 }
             }
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
-                MapPolyline currentline = new MapPolyline
-                {
-                    StrokeThickness = 11,
-                    StrokeColor = Colors.Blue,
-                    StrokeDashed = false,
-                    ZIndex = 2
-                };
-                List<BasicGeoposition> positions = new List<BasicGeoposition>();
-                for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.route.Count; i++)
-                {
-                    positions.Add(new BasicGeoposition() { Latitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Latitude, Longitude = App.instance.transfer.data.currentwalkedRoute.route[i].location.Position.Longitude });
-                }
-                currentline.Path = new Geopath(positions);
                 if(App.instance.transfer.data.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(App.instance.transfer.data.calculatedRoute);
                 }
-                MapControl1.MapElements.Add(currentline);
+                MapControl1.MapElements.Add(maphelper.generateCurrentRoute());
             }
             if (App.instance.transfer.data.currentposition != null && !MapControl1.MapElements.Contains(App.instance.transfer.data.currentposition))
             {
@@ -324,36 +233,9 @@ namespace Runkeeper
 
             result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
 
-            MapLocation to1 = result.Locations.First();
-            MapRouteFinderResult routeresult = await MapRouteFinder.GetWalkingRouteAsync(from1.Point, to1.Point);
+            maphelper.generateCalculatedRoute(result,from1);
 
-            MapRoute map1 = routeresult.Route;
-
-            var color = Colors.Red;
-            App.instance.transfer.data.calculatedRoute = new MapPolyline
-            {
-                StrokeThickness = 11,
-                StrokeColor = color,
-                StrokeDashed = false,
-                ZIndex = 2
-            };
-            App.instance.transfer.data.calculatedRoute.Path = new Geopath(map1.Path.Positions);
-
-            UpdateWalkedRoute();
-        }
-
-        public static async Task<MapLocation> FindLocation(string location, Geopoint reference)
-        {
-            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(location, reference);
-            MapLocation from = result.Locations.First();
-            return from;
-        }
-
-        public static async Task<MapRoute> FindRunnerRoute(Geopoint from, Geopoint to)
-        {
-            MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(from,to);
-            MapRoute b = routeResult.Route;
-            return b;
+            UpdateWalkedRoute(App.instance.transfer.data.currentposition.Location);
         }
 
         private void StartRunning_Click(object sender, RoutedEventArgs e)

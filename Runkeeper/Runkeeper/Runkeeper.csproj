@@ -118,6 +118,7 @@
     <Compile Include="MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\MapHelper.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\Transfer.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\GeofenceHandler.cs" />
     <Compile Include="ViewModel\Time.cs" />
   </ItemGroup>
   <ItemGroup>
