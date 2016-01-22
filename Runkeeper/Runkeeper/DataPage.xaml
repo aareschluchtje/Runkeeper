@@ -10,12 +10,12 @@
 
     <Grid Background="Gray">
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled">
-        <Charting:Chart x:Name="TimeChart" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="1000" Height="590" Margin="0,50,0,0">
+        <Charting:Chart x:Name="TimeChart" CharacterSpacing="10" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="600" Height="600" Margin="0,50,0,0">
             <Charting:LineSeries Title="AfstandTijd" Background="White" Margin="0,0,0,0" IndependentValuePath="Time" DependentValuePath="Distance" IsSelectionEnabled="True"/>
         </Charting:Chart>
         </ScrollViewer>
         <StackPanel>
-            <Button Name="Ref" Click="Ref_Click" Width="100" Height="50" Content="refresh" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Button Background="DarkGray" Name="Ref" Click="Ref_Click" Width="100" Height="50" Content="refresh" VerticalAlignment="Top" HorizontalAlignment="Center"/>
             </StackPanel>
     </Grid>
 </Page>
