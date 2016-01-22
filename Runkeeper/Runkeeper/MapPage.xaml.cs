@@ -60,18 +60,30 @@ namespace Runkeeper
             {
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
-            var geofences = GeofenceMonitor.Current.Geofences;
-            List<Geofence> list = geofences.ToList();
-            Debug.WriteLine(list);
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
-            //foreach (Route route in App.instance.transfer.data.walkedRoutes)
-            //{
-            //    for (int i = 0; i < route.route.Count; i++)
-            //    {
-            //        GeofenceMonitor.Current.Geofences.Add(createGeofence(route.route[i].location));
-            //    }
-            //}
+            Debug.WriteLine(GeofenceMonitor.Current.Status);
+
+            foreach (Route route in App.instance.transfer.data.walkedRoutes)
+            {
+                for (int i = 0; i < route.route.Count; i++)
+                {
+                    Geofence geofence = createGeofence(route.route[i].location);
+                    List<Geofence> geofences = GeofenceMonitor.Current.Geofences.ToList();
+                    bool equal = false;
+                    foreach (Geofence something in geofences)
+                    {
+                        if (something.Id == geofence.Id)
+                        {
+                            equal = true;
+                        }
+                    }
+                    if(!equal)
+                    {
+                        GeofenceMonitor.Current.Geofences.Add(geofence);
+                    }
+                }
+            }
 
             var geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             geolocator.PositionChanged += Geolocator_PositionChanged;
@@ -87,9 +99,34 @@ namespace Runkeeper
             base.OnNavigatingFrom(e);
         }
 
-        private void Current_StatusChanged(GeofenceMonitor sender, object args)
+        private async void Current_StatusChanged(GeofenceMonitor sender, object args)
         {
-            throw new NotImplementedException();
+            var reports = sender.ReadReports();
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                foreach (GeofenceStateChangeReport report in reports)
+                {
+                    GeofenceState state = report.NewState;
+
+                    Geofence geofence = report.Geofence;
+
+                    if (state == GeofenceState.Removed)
+                    {
+                        // Remove the geofence from the geofences collection.
+                        GeofenceMonitor.Current.Geofences.Remove(geofence);
+                    }
+                    else if (state == GeofenceState.Entered)
+                    {
+                        Popup1.IsOpen = true;
+                    }
+                    else if (state == GeofenceState.Exited)
+                    {
+
+                    }
+                }
+            });
+
         }
 
         private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
@@ -99,7 +136,6 @@ namespace Runkeeper
                 switch(sender.Status)
                 {
                     case GeofenceMonitorStatus.Ready:
-                        //MainPage.NotifyUser("The monitor is ready and active.", NotifyType.StatusMessage);
                         break;
                 }
             });
@@ -118,8 +154,18 @@ namespace Runkeeper
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);
 
+            bool singleUse = true;
+
+            MonitoredGeofenceStates monitoredStates =
+                MonitoredGeofenceStates.Entered |
+                MonitoredGeofenceStates.Exited |
+                MonitoredGeofenceStates.Removed;
+
+            TimeSpan dwellTime = TimeSpan.FromSeconds(1);
+            TimeSpan duration = TimeSpan.FromDays(1);
+            DateTimeOffset startTime = DateTime.Now;
             // Create the geofence.
-            Geofence geofence = new Geofence(fenceId, geocircle);
+            Geofence geofence = new Geofence(fenceId, geocircle, monitoredStates, singleUse, dwellTime, startTime, duration);
             return geofence;
         }
 
@@ -177,7 +223,6 @@ namespace Runkeeper
         {
             if (App.instance.transfer.data.currentwalkedRoute.route.Count >= 2)
             {
-                Debug.WriteLine(App.instance.transfer.data.currentwalkedRoute.route.Count);
                 MapPolyline currentline = new MapPolyline
                 {
                     StrokeThickness = 11,
@@ -210,8 +255,6 @@ namespace Runkeeper
                 {
                     oldline.Path = new Geopath(oldpositions);
                 }
-                List<MapElement> list = MapControl1.MapElements.ToList();
-                Debug.WriteLine(list);
                 if(App.instance.transfer.data.calculatedRoute != null)
                 {
                     MapControl1.MapElements.Add(App.instance.transfer.data.calculatedRoute);
