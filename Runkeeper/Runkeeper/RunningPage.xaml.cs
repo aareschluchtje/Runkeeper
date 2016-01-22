@@ -24,6 +24,7 @@ namespace Runkeeper
     public sealed partial class RunningPage : Page
     {
         Time time;
+        
         public RunningPage()
         {
             this.InitializeComponent();
@@ -38,10 +39,12 @@ namespace Runkeeper
             time.timer.Stop();
             time.ResetStopWatch();
             App.instance.transfer.data.saveData();
+            MapPage.instance.StopLocating();
         }
 
-        private void START_Click(object sender, RoutedEventArgs e)
+        private async void START_Click(object sender, RoutedEventArgs e)
         {
+            await MapPage.instance.startLocating();
             time.timer.Start();
         }
     }
