@@ -13,6 +13,7 @@ using Windows.Data.Json;
 using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace Runkeeper
@@ -30,7 +31,7 @@ namespace Runkeeper
         public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public bool zoomCenter = true, drawOld = true;
-
+        public bool startApp = false;
         public DataHandler()
         {
             this.walkedRoutes = new ObservableCollection<Route>();
@@ -145,6 +146,5 @@ namespace Runkeeper
         {
             this.drawOld = drawOld;
         }
-
     }
 }
