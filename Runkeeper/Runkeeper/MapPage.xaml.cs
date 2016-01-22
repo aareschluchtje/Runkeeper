@@ -1,31 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
 using Windows.System;
-using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Devices.Geolocation;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Shapes;
-using Windows.UI;
 using Windows.Services.Maps;
 using Runkeeper.Model;
-using System.ComponentModel;
 using Windows.Devices.Geolocation.Geofencing;
 using System.Diagnostics;
-using Windows.Storage.Streams;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 
@@ -156,7 +143,6 @@ namespace Runkeeper
                 Geoposition x = await maphelper.currentLocation(args.Position);
                 UpdateWalkedRoute(x.Coordinate.Point);
             });
-
         }
 
         private void UpdateWalkedRoute(Geopoint point)

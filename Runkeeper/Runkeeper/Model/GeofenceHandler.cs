@@ -13,11 +13,6 @@ namespace Runkeeper.Model
     {
         static public int fenceid = 0;
 
-        public GeofenceHandler()
-        {
-
-        }
-
         static public Geofence createGeofence(Geopoint location)
         {
             // Set the fence ID.
