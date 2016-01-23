@@ -15,6 +15,7 @@ using Windows.Devices.Geolocation.Geofencing;
 using System.Diagnostics;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
+using Windows.UI;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -237,7 +238,6 @@ namespace Runkeeper
             result = await MapLocationFinder.FindLocationsAsync(to, MapControl1.Center);
 
             maphelper.generateCalculatedRoute(result,from1);
-
             UpdateWalkedRoute(App.instance.transfer.data.currentposition.Location);
         }
 

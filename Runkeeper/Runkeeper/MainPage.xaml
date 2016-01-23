@@ -24,7 +24,9 @@
         <RelativePanel Grid.Row="0">
             <Button RelativePanel.AlignLeftWithPanel="True" Name="RunButton" Click="RunButton_Click" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" FontSize="28" />
 
-            <TextBlock RelativePanel.RightOf="RunButton" FontSize="28" Margin="10,0,0,0" Name="PageTitle" x:Uid="PageTitleDefault"/>
+            <Viewbox RelativePanel.RightOf="RunButton" RelativePanel.AlignBottomWith="RunButton" StretchDirection="DownOnly" Stretch="UniformToFill" Margin="10,0,10,0">
+                <TextBlock FontSize="28" Name="PageTitle"/>
+            </Viewbox>
         </RelativePanel>
 
         <SplitView Grid.Row="1" Name="RunView" DisplayMode="Overlay" OpenPaneLength="300">
@@ -33,47 +35,48 @@
                       HorizontalAlignment="Stretch"
                       ManipulationMode="TranslateX"
                       ManipulationCompleted="MySplitviewPane_ManipulationCompleted">
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Stretch" RelativePanel.AlignTopWithPanel="True">
+                        <ListBox SelectionMode="Single" Name="RunList" SelectionChanged="RunList_SelectionChanged">
 
-                    <ListBox SelectionMode="Single" Name="RunList" SelectionChanged="RunList_SelectionChanged">
 
-                       
-                        <ListBoxItem Name="RouteScreen">
+                        <ListBoxItem Name="RouteScreen" ManipulationCompleted="MySplitviewPane_ManipulationCompleted" Tapped="RouteScreen_OnTapped">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE128;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">RouteScherm</TextBlock>
+                                <TextBlock Name="RouteScreenText" Style="{StaticResource RunText}">RouteScherm</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Name="Grafiek">
+                        <ListBoxItem Name="Grafiek" ManipulationCompleted="MySplitviewPane_ManipulationCompleted">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE908;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Grafiek</TextBlock>
+                                    <TextBlock Name="GrafiekText" Style="{StaticResource RunText}">Grafiek</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Name="historische">
+                        <ListBoxItem Name="historische" ManipulationCompleted="MySplitviewPane_ManipulationCompleted">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE2AD;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Historische-Route</TextBlock>
+                                    <TextBlock Name="HistorischeText" Style="{StaticResource RunText}">Historische-Route</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Name="Settings">
+                        <ListBoxItem Name="Settings" ManipulationCompleted="MySplitviewPane_ManipulationCompleted">
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE713;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemSettings">Instellingen</TextBlock>
+                                    <TextBlock Name="InstellingenText" Style="{StaticResource RunText}">Instellingen</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
-                        
-                        <ListBoxItem Name="Help">
+
+                        <ListBoxItem Name="Help" ManipulationCompleted="MySplitviewPane_ManipulationCompleted">
 
                             <StackPanel Style="{StaticResource RunStackPanel}">
                                 <TextBlock Style="{StaticResource RunIcon}" Text="&#xE897;"/>
-                                <TextBlock Style="{StaticResource RunText}" x:Uid="MenuItemHelp">Help</TextBlock>
+                                <TextBlock Name="HelpText" Style="{StaticResource RunText}">Help</TextBlock>
                             </StackPanel>
                         </ListBoxItem>
 
                     </ListBox>
+                        </Viewbox>
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>

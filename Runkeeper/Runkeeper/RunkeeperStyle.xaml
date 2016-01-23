@@ -15,7 +15,7 @@
         <Setter Property="Margin" Value="-2,5,0,0" />
     </Style>
 
-    <Style x:Key="RunText" TargetType="TextBlock">
+        <Style x:Key="RunText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="28" />
         <Setter Property="Margin" Value="20,0,0,0" />
     </Style>
