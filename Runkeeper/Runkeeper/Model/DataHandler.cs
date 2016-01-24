@@ -31,7 +31,7 @@ namespace Runkeeper
         public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public bool zoomCenter = true, drawOld = true;
-        public bool startApp = false;
+        public bool RouteStarted = false;
         public DataHandler()
         {
             this.walkedRoutes = new ObservableCollection<Route>();

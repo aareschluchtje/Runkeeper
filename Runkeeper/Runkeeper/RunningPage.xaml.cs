@@ -32,6 +32,8 @@ namespace Runkeeper
             SpeedText.DataContext = App.instance.transfer.data;
             TimeBlock.DataContext = time;
             Afstand.DataContext = App.instance.transfer.data;
+            Stop.IsEnabled = App.instance.transfer.data.RouteStarted;
+            START.IsEnabled = !App.instance.transfer.data.RouteStarted;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
@@ -40,12 +42,18 @@ namespace Runkeeper
             time.ResetStopWatch();
             App.instance.transfer.data.saveData();
             MapPage.instance.StopLocating();
+            Stop.IsEnabled = false;
+            START.IsEnabled = true;
         }
 
-        private async void START_Click(object sender, RoutedEventArgs e)
+        private void START_Click(object sender, RoutedEventArgs e)
         {
-            await MapPage.instance.startLocating();
+            App.instance.transfer.data.RouteStarted = true;
+            MapPage.instance.startTracking();
+            //Frame.Navigate(typeof(MapPage), new Tuple<string,string,string>("RunningPage",null,null));
             time.timer.Start();
+            Stop.IsEnabled = true;
+            START.IsEnabled = false;
         }
     }
 }
