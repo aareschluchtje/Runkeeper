@@ -80,8 +80,9 @@ namespace Runkeeper
                     }
                 }
             }
+            Debug.WriteLine("bleh");
 
-           return await startLocating();
+            return await startLocating();
         }
 
         public async Task<Geoposition> startLocating()
@@ -96,6 +97,7 @@ namespace Runkeeper
         public void StopLocating()
         {
             App.instance.transfer.data.startApp = true;
+            if(this.geolocator != null)
             this.geolocator.PositionChanged -= Geolocator_PositionChanged;
             this.geolocator = null;
         }
@@ -144,6 +146,7 @@ namespace Runkeeper
                 switch(sender.Status)
                 {
                     case GeofenceMonitorStatus.Ready:
+                        Debug.WriteLine("Ready");
                         break;
                 }
             });
@@ -262,6 +265,9 @@ namespace Runkeeper
         {
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
+            IList<Geofence> list = GeofenceMonitor.Current.Geofences;
+            List<Geofence> geofences = list.ToList();
+            Debug.WriteLine(geofences);
             base.OnNavigatedTo(e);
             var value = (Tuple<string, string,string>)e.Parameter;
             if(value.Item1.Equals("createroute"))

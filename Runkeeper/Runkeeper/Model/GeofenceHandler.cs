@@ -11,17 +11,15 @@ namespace Runkeeper.Model
 {
     public class GeofenceHandler
     {
-        static public int fenceid = 0;
 
         static public Geofence createGeofence(Geopoint location)
         {
             // Set the fence ID.
-            string fenceId = "fence" + location.Position.Latitude + location.Position.Longitude + fenceid;
-            fenceid++;
+            string fenceId = "fence" + location.Position.Latitude + location.Position.Longitude;
 
             BasicGeoposition position = new BasicGeoposition { Latitude = location.Position.Latitude, Longitude = location.Position.Longitude };
             // Define the fence location and radius.
-            double radius = 200; // in meters
+            double radius = 20; // in meters
 
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);
