@@ -36,7 +36,6 @@ namespace Runkeeper
 
         public void orderbyDistance()
         {
-            
             var order = from route in App.instance.transfer.data.walkedRoutes
                         orderby route.totalDistance descending
                         select route;

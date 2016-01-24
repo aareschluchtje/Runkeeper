@@ -100,13 +100,13 @@ namespace Runkeeper
             this.geolocator = null;
         }
 
-        //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        //{
-        //    GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
-        //    GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
+            GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
 
-        //    base.OnNavigatingFrom(e);
-        //}
+            base.OnNavigatingFrom(e);
+        }
 
         private async void Current_StatusChanged(GeofenceMonitor sender, object args)
         {
@@ -260,6 +260,8 @@ namespace Runkeeper
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
+            GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
             base.OnNavigatedTo(e);
             var value = (Tuple<string, string,string>)e.Parameter;
             if(value.Item1.Equals("createroute"))
