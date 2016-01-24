@@ -67,7 +67,8 @@
     <!--<Page.BottomAppBar>
         <AppBar IsOpen="False" IsSticky="True">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <AppBarButton Icon="MapPin" Label="Location" Click="AppBarButton_Click"/>
+                <AppBarButton Icon="MapPin" Label="StartTracking" Click="StartTracking_Click"/>
+                <AppBarButton Icon="MapPin" Label="StopTracking" Click="StopTracking_Click"/>
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>-->

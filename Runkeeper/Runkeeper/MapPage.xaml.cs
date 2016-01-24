@@ -28,6 +28,7 @@ namespace Runkeeper
     {
         private MapHelper maphelper = new MapHelper();
         private MapPolyline oldline;
+        private Geolocator geolocator;
         public static MapPage instance;
 
         public MapPage()
@@ -36,14 +37,15 @@ namespace Runkeeper
             this.InitializeComponent();
             if(App.instance.transfer.data.currentposition != null && App.instance.transfer.data.currentwalkedRoute != null)
             {
+                MapControl1.Center = App.instance.transfer.data.currentposition.Location;
+                MapControl1.ZoomLevel = 16;
                 UpdateWalkedRoute(App.instance.transfer.data.currentposition.Location);
             }
-            if(App.instance.transfer.data.geolocator == null && !App.instance.transfer.data.startApp)
+            if(!App.instance.transfer.data.startApp)
             {
                 startTracking();
             }
             this.NavigationCacheMode = NavigationCacheMode.Disabled;
-            App.instance.transfer.data.startApp = true;
         }
 
         public async Task<Geoposition> GetPosition()
@@ -85,17 +87,17 @@ namespace Runkeeper
         public async Task<Geoposition> startLocating()
         {
             App.instance.transfer.data.startApp = false;
-            App.instance.transfer.data.geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
-            App.instance.transfer.data.geolocator.PositionChanged += Geolocator_PositionChanged;
-            var position = await App.instance.transfer.data.geolocator.GetGeopositionAsync();
+            this.geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
+            this.geolocator.PositionChanged += Geolocator_PositionChanged;
+            var position = await this.geolocator.GetGeopositionAsync();
             return position;
         }
 
         public void StopLocating()
         {
             App.instance.transfer.data.startApp = true;
-            App.instance.transfer.data.geolocator.PositionChanged -= Geolocator_PositionChanged;
-            App.instance.transfer.data.geolocator = null;
+            this.geolocator.PositionChanged -= Geolocator_PositionChanged;
+            this.geolocator = null;
         }
 
         //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

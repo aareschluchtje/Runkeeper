@@ -11,10 +11,10 @@ using Windows.UI.Xaml;
 
 namespace Runkeeper.ViewModel
 {
-    class Time : INotifyPropertyChanged
+    public class Time : INotifyPropertyChanged
     {
-        public DispatcherTimer timer;
-        public String stopwatchTime { get; set; }
+        private DispatcherTimer timer;
+        public string stopwatchTime { get; set; }
         private double startTime;
         public Time()
         {
@@ -47,10 +47,11 @@ namespace Runkeeper.ViewModel
             NotifyPropertyChanged(nameof(stopwatchTime));
         }
 
-        public void ResetStopWatch()
+        public void Start()
         {
             stopwatchTime = "0:0:0:0";
             startTime = Now;
+            timer.Start();
             NotifyPropertyChanged(nameof(stopwatchTime));
         }
 
@@ -61,6 +62,9 @@ namespace Runkeeper.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
+        public void Stop()
+        {
+            timer.Stop();
+        }
     }
 }

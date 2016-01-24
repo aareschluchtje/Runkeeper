@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -23,29 +24,26 @@ namespace Runkeeper
     /// </summary>
     public sealed partial class RunningPage : Page
     {
-        Time time;
         
         public RunningPage()
         {
             this.InitializeComponent();
-            time = new Time();
             SpeedText.DataContext = App.instance.transfer.data;
-            TimeBlock.DataContext = time;
+            TimeBlock.DataContext = App.instance.transfer.data.time;
             Afstand.DataContext = App.instance.transfer.data;
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            time.timer.Stop();
-            time.ResetStopWatch();
+            App.instance.transfer.data.time.Stop();
             App.instance.transfer.data.saveData();
             MapPage.instance.StopLocating();
         }
 
         private async void START_Click(object sender, RoutedEventArgs e)
         {
-            await MapPage.instance.startLocating();
-            time.timer.Start();
+            App.instance.transfer.data.time.Start();
+            Geoposition x = await MapPage.instance.startLocating();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Runkeeper.Model;
+using Runkeeper.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,6 @@ namespace Runkeeper
     {
         public Route currentwalkedRoute = new Route(DateTime.Now, new ObservableCollection<DataStamp>(), 0);
         public ObservableCollection<Route> walkedRoutes { get; set; }
-        public Geolocator geolocator;
         public MapIcon currentposition;
         public MapPolyline calculatedRoute;
         public Geopoint startposition;
@@ -31,7 +31,8 @@ namespace Runkeeper
         public string currentSpeed { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public bool zoomCenter = true, drawOld = true;
-        public bool startApp = false;
+        public bool startApp = true;
+        public Time time = new Time();
         public DataHandler()
         {
             this.walkedRoutes = new ObservableCollection<Route>();
