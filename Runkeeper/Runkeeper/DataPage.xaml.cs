@@ -43,10 +43,13 @@ namespace Runkeeper
         {
             double totalDistance = 0;
             ObservableCollection<TimeDistance> list = new ObservableCollection<TimeDistance>();
-            foreach (var data in App.instance.transfer.data.currentwalkedRoute.route)
+            for (int i = 0; i < App.instance.transfer.data.currentwalkedRoute.route.Count; i++)
             {
-                totalDistance += data.distance;
-                list.Add(new TimeDistance { Time = "" + data.time.Second, Distance = totalDistance });
+                if(i % (App.instance.transfer.data.currentwalkedRoute.route.Count/10) == 0)
+                {
+                    totalDistance += App.instance.transfer.data.currentwalkedRoute.route[i].distance;
+                    list.Add(new TimeDistance { Time = App.instance.transfer.data.currentwalkedRoute.route[i].time.Minute + ":" + App.instance.transfer.data.currentwalkedRoute.route[i].time.Second, Distance = totalDistance });
+                }
             }
             (TimeChart.Series[0] as LineSeries).ItemsSource = list;
         }
