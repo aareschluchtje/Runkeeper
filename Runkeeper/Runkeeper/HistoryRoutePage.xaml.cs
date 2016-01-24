@@ -31,31 +31,33 @@ namespace Runkeeper
         public HistoryRoutePage()
         {
             this.InitializeComponent();
-
+            this.DataContext = App.instance.transfer.data;
         }
 
         public void orderbyDistance()
         {
-          
+            
             var order = from route in App.instance.transfer.data.walkedRoutes
                         orderby route.totalDistance descending
                         select route;
             App.instance.transfer.data.walkedRoutes = new ObservableCollection<Route>(order);
-            ;
+            NotifyPropertyChanged(nameof(App.instance.transfer.data.walkedRoutes));
+            data.ItemsSource = App.instance.transfer.data.walkedRoutes;
             PrintRoute<Route>("distance order: ", App.instance.transfer.data.walkedRoutes);
             data.DataContext = App.instance.transfer.data;
         }
 
         public void orderbyTime()
-        {
-
+        { 
             var order = from route in App.instance.transfer.data.walkedRoutes
                         orderby route.date.Second descending
                         select route;
             App.instance.transfer.data.walkedRoutes = new ObservableCollection<Route>(order);
-            
+            NotifyPropertyChanged(nameof(App.instance.transfer.data.walkedRoutes));
+            data.ItemsSource = App.instance.transfer.data.walkedRoutes;
             PrintRoute<Route>("distance order: ", App.instance.transfer.data.walkedRoutes);
             data.DataContext = App.instance.transfer.data;
+            data.UpdateLayout();
         }
 
         static void PrintRoute<T>(string title, IEnumerable<T> Routes)
@@ -79,7 +81,7 @@ namespace Runkeeper
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(string propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
