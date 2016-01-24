@@ -34,16 +34,16 @@ namespace Runkeeper
         {
             instance = this;
             this.InitializeComponent();
-            Debug.WriteLine(App.instance.transfer.data.RouteStarted);
             if(App.instance.transfer.data.currentposition != null && App.instance.transfer.data.currentwalkedRoute != null)
             {
                 UpdateWalkedRoute(App.instance.transfer.data.currentposition.Location);
             }
-            if(App.instance.transfer.data.geolocator == null && App.instance.transfer.data.RouteStarted)
+            if(App.instance.transfer.data.geolocator == null && !App.instance.transfer.data.startApp)
             {
                 startTracking();
             }
             this.NavigationCacheMode = NavigationCacheMode.Disabled;
+            App.instance.transfer.data.startApp = true;
         }
 
         public async Task<Geoposition> GetPosition()
@@ -84,6 +84,7 @@ namespace Runkeeper
 
         public async Task<Geoposition> startLocating()
         {
+            App.instance.transfer.data.startApp = false;
             App.instance.transfer.data.geolocator = new Geolocator { DesiredAccuracyInMeters = 0, MovementThreshold = 1 };
             App.instance.transfer.data.geolocator.PositionChanged += Geolocator_PositionChanged;
             var position = await App.instance.transfer.data.geolocator.GetGeopositionAsync();
@@ -92,7 +93,7 @@ namespace Runkeeper
 
         public void StopLocating()
         {
-            App.instance.transfer.data.RouteStarted = false;
+            App.instance.transfer.data.startApp = true;
             App.instance.transfer.data.geolocator.PositionChanged -= Geolocator_PositionChanged;
             App.instance.transfer.data.geolocator = null;
         }
@@ -146,7 +147,7 @@ namespace Runkeeper
             });
         }
 
-        public async void startTracking()
+        private async void startTracking()
         {
             MapControl1.ZoomLevel = 16;
             Geoposition x = await GetPosition();
@@ -167,7 +168,6 @@ namespace Runkeeper
             if (App.instance.transfer.data.zoomCenter)
             {
                 MapControl1.Center = point;
-                MapControl1.ZoomLevel = 16;
             }
             if (App.instance.transfer.data.drawOld && !MapControl1.MapElements.Contains(oldline) && App.instance.transfer.data.walkedRoutes.Count > 0)
             {
@@ -189,13 +189,6 @@ namespace Runkeeper
             {
                 MapControl1.MapElements.Add(App.instance.transfer.data.currentposition);
             }
-            else if(App.instance.transfer.data.currentposition != null && MapControl1.MapElements.Contains(App.instance.transfer.data.currentposition))
-            {
-                App.instance.transfer.data.currentposition.Location = point;
-            }
-            List<MapElement> list = MapControl1.MapElements.ToList();
-            Debug.WriteLine(list);
-
         }
 
         async private void OnCompleted(IBackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)

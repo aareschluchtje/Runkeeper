@@ -38,7 +38,6 @@ namespace Runkeeper.Model
             {
                 App.instance.transfer.data.currentposition = new MapIcon();
                 App.instance.transfer.data.currentposition.ZIndex = 3;
-                App.instance.transfer.data.currentposition.Title = "iets";
                 App.instance.transfer.data.currentposition.NormalizedAnchorPoint = new Point(0.5, 1.0);
                 App.instance.transfer.data.currentposition.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapIcon.png"));
             }
