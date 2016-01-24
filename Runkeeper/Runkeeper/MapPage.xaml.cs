@@ -56,9 +56,11 @@ namespace Runkeeper
             {
                 var succes = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
             }
+
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
-            GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
-            
+            //GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
+  
+
             Debug.WriteLine(GeofenceMonitor.Current.Status);
             foreach (Route route in App.instance.transfer.data.walkedRoutes)
             {
@@ -105,12 +107,12 @@ namespace Runkeeper
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
-            GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
+            //GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
 
             base.OnNavigatingFrom(e);
         }
 
-        private async void Current_StatusChanged(GeofenceMonitor sender, object args)
+     /*   private async void Current_StatusChanged(GeofenceMonitor sender, object args)
         {
             var reports = sender.ReadReports();
 
@@ -130,6 +132,7 @@ namespace Runkeeper
                     else if (state == GeofenceState.Entered)
                     {
                         Popup1.IsOpen = true;
+                        Debug.WriteLine("Hoi je bent in de geofence");
                     }
                     else if (state == GeofenceState.Exited)
                     {
@@ -137,19 +140,39 @@ namespace Runkeeper
                     }
                 }
             });
-        }
+        }*/
 
         private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (sender.Geofences.Any())
             {
-                switch(sender.Status)
+                var reports = sender.ReadReports();
+
+                foreach (var report in reports)
                 {
-                    case GeofenceMonitorStatus.Ready:
-                        Debug.WriteLine("Ready");
-                        break;
+                    switch (report.NewState)
+                    {
+                        case GeofenceState.Entered:
+                        {
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                Popup1.IsOpen = true;
+                                Debug.WriteLine("Geofence COr: " + report.Geoposition.Coordinate.Point.ToString());
+                            });
+                                break;
+                        }
+                        case GeofenceState.Exited:
+                            {
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                {
+                                    Popup1.IsOpen = false;
+                                    
+                                });
+                                break;
+                            }
+                    }
                 }
-            });
+            }
         }
 
         private async void startTracking()
@@ -264,7 +287,7 @@ namespace Runkeeper
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
-            GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
+            //GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
             IList<Geofence> list = GeofenceMonitor.Current.Geofences;
             List<Geofence> geofences = list.ToList();
             Debug.WriteLine(geofences);

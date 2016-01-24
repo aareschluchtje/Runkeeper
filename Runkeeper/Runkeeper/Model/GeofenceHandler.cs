@@ -26,10 +26,9 @@ namespace Runkeeper.Model
 
             bool singleUse = false;
 
-            MonitoredGeofenceStates mask = 0;
-
-            mask |= MonitoredGeofenceStates.Entered;
-            mask |= MonitoredGeofenceStates.Exited;
+            MonitoredGeofenceStates mask = 
+            MonitoredGeofenceStates.Entered |
+            MonitoredGeofenceStates.Exited;
 
             TimeSpan dwellTime = TimeSpan.FromSeconds(1);
             TimeSpan duration = TimeSpan.FromDays(1);
