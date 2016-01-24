@@ -52,7 +52,7 @@
             <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
 
-        <Popup Margin="10,10,0,13" VerticalOffset="10" HorizontalOffset="200" Name="Popup1" IsOpen="False">
+        <Popup Margin="10,10,0,13" VerticalOffset="140" HorizontalOffset="70" Name="Popup1" IsOpen="False">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
                 Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
                 BorderThickness="2" Width="200" Height="200">

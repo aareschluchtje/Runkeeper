@@ -21,17 +21,16 @@ namespace Runkeeper.Model
 
             BasicGeoposition position = new BasicGeoposition { Latitude = location.Position.Latitude, Longitude = location.Position.Longitude };
             // Define the fence location and radius.
-            double radius = 200; // in meters
+            double radius = 20; // in meters
 
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);
 
             bool singleUse = false;
 
-            MonitoredGeofenceStates mask = 0;
-
-            mask |= MonitoredGeofenceStates.Entered;
-            mask |= MonitoredGeofenceStates.Exited;
+            MonitoredGeofenceStates mask = 
+            MonitoredGeofenceStates.Entered |
+            MonitoredGeofenceStates.Exited;
 
             TimeSpan dwellTime = TimeSpan.FromSeconds(1);
             TimeSpan duration = TimeSpan.FromDays(1);
