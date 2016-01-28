@@ -107,40 +107,9 @@ namespace Runkeeper
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
-            //GeofenceMonitor.Current.StatusChanged -= Current_StatusChanged;
 
             base.OnNavigatingFrom(e);
         }
-
-     /*   private async void Current_StatusChanged(GeofenceMonitor sender, object args)
-        {
-            var reports = sender.ReadReports();
-
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                foreach (GeofenceStateChangeReport report in reports)
-                {
-                    GeofenceState state = report.NewState;
-
-                    Geofence geofence = report.Geofence;
-
-                    if (state == GeofenceState.Removed)
-                    {
-                        // Remove the geofence from the geofences collection.
-                        GeofenceMonitor.Current.Geofences.Remove(geofence);
-                    }
-                    else if (state == GeofenceState.Entered)
-                    {
-                        Popup1.IsOpen = true;
-                        Debug.WriteLine("Hoi je bent in de geofence");
-                    }
-                    else if (state == GeofenceState.Exited)
-                    {
-
-                    }
-                }
-            });
-        }*/
 
         private async void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
         {
@@ -156,8 +125,11 @@ namespace Runkeeper
                         {
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                Popup1.IsOpen = true;
-                                Debug.WriteLine("Geofence COr: " + report.Geoposition.Coordinate.Point.ToString());
+                                if (Popup1.IsOpen == false)
+                                {
+                                    Popup1.IsOpen = true;
+                                    MainGrid.Opacity = 0.10;
+                                }
                             });
                                 break;
                         }
@@ -166,7 +138,7 @@ namespace Runkeeper
                                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
                                     Popup1.IsOpen = false;
-                                    
+                                    MainGrid.Opacity = 1.0;
                                 });
                                 break;
                             }
@@ -298,6 +270,12 @@ namespace Runkeeper
                 FromToRoute(value.Item2, value.Item3);
             }
             MapControl1.MapElements.Clear();
+        }
+
+        private void PopButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MainGrid.Opacity = 1.0;
+            Popup1.IsOpen = false;
         }
     }
 }
