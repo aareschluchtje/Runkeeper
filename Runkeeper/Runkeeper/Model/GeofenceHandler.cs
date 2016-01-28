@@ -19,7 +19,7 @@ namespace Runkeeper.Model
 
             BasicGeoposition position = new BasicGeoposition { Latitude = location.Position.Latitude, Longitude = location.Position.Longitude };
             // Define the fence location and radius.
-            double radius = 20; // in meters
+            double radius = 10; // in meters
 
             // Set a circular region for the geofence.
             Geocircle geocircle = new Geocircle(position, radius);

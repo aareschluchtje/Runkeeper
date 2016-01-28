@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
-    xmlns:Toast="using:NotificationsExtensions.ToastContent"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -19,7 +18,7 @@
     
     
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Name="MainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -38,7 +37,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Maps:MapControl
+     
+            <Maps:MapControl
              x:Name = "MapControl1"
             Grid.RowSpan = "7"
             Grid.ColumnSpan = "5"
@@ -53,15 +53,30 @@
             <Button Style="{StaticResource ButtonStyleMapPage}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
 
-        <Popup Margin="10,10,0,13" VerticalOffset="140" HorizontalOffset="70" Name="Popup1" IsOpen="False">
+        <Popup Margin="10,10,0,13" VerticalOffset="120" HorizontalOffset="70" Name="Popup1" IsOpen="False">
             <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
-                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                BorderThickness="2" Width="200" Height="200">
-                <StackPanel>
-                    <TextBlock Name="McTextBlock" Text="text">
-                    </TextBlock>
-                    <Button Content="This is button on a Popup" />
-                </StackPanel>
+                Background="Black"
+                BorderThickness="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                     </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="2" Background="Transparent">
+                        <Button Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" Content="&#xE711;" x:Name="popButton"  Click="PopButton_OnClick"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Name="TextPop" TextWrapping="Wrap" Text="U bent hier de vorige keer geweest."/>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Popup>
     </Grid>

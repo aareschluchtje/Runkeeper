@@ -56,7 +56,6 @@ namespace Runkeeper
             data.ItemsSource = App.instance.transfer.data.walkedRoutes;
             PrintRoute<Route>("distance order: ", App.instance.transfer.data.walkedRoutes);
             data.DataContext = App.instance.transfer.data;
-            data.UpdateLayout();
         }
 
         static void PrintRoute<T>(string title, IEnumerable<T> Routes)
