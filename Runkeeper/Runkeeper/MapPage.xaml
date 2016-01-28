@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:Toast="using:NotificationsExtensions.ToastContent"
     mc:Ignorable="d">
-
 
     <Page.Resources>
         <ResourceDictionary>
@@ -16,6 +16,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+    
+    
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -47,9 +49,8 @@
 
         <Button Style="{StaticResource ButtonStyleMapPage}" Grid.Row="6" Grid.Column="2" Name="StartRunning" Content="Start Running" Click="StartRunning_Click"/>
 
-        <RelativePanel Grid.Row="6" Grid.Column="2" Style="{StaticResource RelativePanelStyleMapPage}">
-            <Button Style="{StaticResource ButtonStyleMapPage2}" Name="Activiteiten" Content="Activiteit" Click="Activiteiten_Click"/>
-            <Button RelativePanel.RightOf="Activiteiten"  Style="{StaticResource ButtonStyleMapPage3}" x:Name="Route" Content="Route" Click="Route_Click"/>
+        <RelativePanel Grid.Row="6" Grid.Column="2" Style="{StaticResource RelativePanelStyleMapPage}" Margin="0,50">
+            <Button Style="{StaticResource ButtonStyleMapPage}" x:Name="Route" Content="Route" Click="Route_Click"/>
         </RelativePanel>
 
         <Popup Margin="10,10,0,13" VerticalOffset="140" HorizontalOffset="70" Name="Popup1" IsOpen="False">
@@ -64,12 +65,4 @@
             </Border>
         </Popup>
     </Grid>
-    <!--<Page.BottomAppBar>
-        <AppBar IsOpen="False" IsSticky="True">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <AppBarButton Icon="MapPin" Label="StartTracking" Click="StartTracking_Click"/>
-                <AppBarButton Icon="MapPin" Label="StopTracking" Click="StopTracking_Click"/>
-            </StackPanel>
-        </AppBar>
-    </Page.BottomAppBar>-->
 </Page>

@@ -60,8 +60,6 @@ namespace Runkeeper
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
             //GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
   
-
-            Debug.WriteLine(GeofenceMonitor.Current.Status);
             foreach (Route route in App.instance.transfer.data.walkedRoutes)
             {
                 for (int i = 0; i < route.route.Count; i++)
@@ -82,8 +80,6 @@ namespace Runkeeper
                     }
                 }
             }
-            Debug.WriteLine("bleh");
-
             return await startLocating();
         }
 
@@ -157,7 +153,6 @@ namespace Runkeeper
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
                                 Popup1.IsOpen = true;
-                                Debug.WriteLine("Geofence COr: " + report.Geoposition.Coordinate.Point.ToString());
                             });
                                 break;
                         }
@@ -247,8 +242,7 @@ namespace Runkeeper
                     }
                     catch (Exception ex)
                     {
-                        // The background task had an error.
-                        Debug.WriteLine(ex.ToString());
+                        throw ex;
                     }
                 });
             }
@@ -290,7 +284,6 @@ namespace Runkeeper
             //GeofenceMonitor.Current.StatusChanged += Current_StatusChanged;
             IList<Geofence> list = GeofenceMonitor.Current.Geofences;
             List<Geofence> geofences = list.ToList();
-            Debug.WriteLine(geofences);
             base.OnNavigatedTo(e);
             var value = (Tuple<string, string,string>)e.Parameter;
             if(value.Item1.Equals("createroute"))

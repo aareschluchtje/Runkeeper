@@ -41,8 +41,6 @@ namespace Runkeeper.Model
                 App.instance.transfer.data.currentposition.NormalizedAnchorPoint = new Point(0.5, 1.0);
                 App.instance.transfer.data.currentposition.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapIcon.png"));
             }
-            List<Geofence> list = GeofenceMonitor.Current.Geofences.ToList();
-            Debug.WriteLine(list);
             App.instance.transfer.data.currentposition.Location = position.Coordinate.Point;
             double speed = Double.Parse(App.instance.transfer.data.speedChanges(position.Coordinate.Speed.ToString()));
             NotifyPropertyChanged(nameof(App.instance.transfer.data.currentSpeed));

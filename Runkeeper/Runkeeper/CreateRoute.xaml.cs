@@ -35,7 +35,7 @@ namespace Runkeeper
        
         }
 
-        private async void From_OnGotFocus(object sender, RoutedEventArgs e)
+        private void From_OnGotFocus(object sender, RoutedEventArgs e)
         {
             From.Text = "";
             Frame.Navigate(typeof (FromRoutePage),new Tuple<string>(From.Text));

@@ -38,6 +38,9 @@ namespace Runkeeper
             App.instance.transfer.data.time.Stop();
             App.instance.transfer.data.saveData();
             MapPage.instance.StopLocating();
+            TimeBlock.Text = "0:0:0:0";
+            speedblock.Text = "0";
+            afstandtext.Text = "0";
         }
 
         private async void START_Click(object sender, RoutedEventArgs e)

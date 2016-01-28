@@ -66,7 +66,6 @@ namespace Runkeeper
         {
             Geopoint p = new Geopoint(new BasicGeoposition() { Latitude = latitude, Longitude = longitude });
             string address = await FindAddress(p);
-            Debug.WriteLine(address);
             return address;
         }
     }

@@ -53,11 +53,11 @@
 
 
         <StackPanel Name="Afstand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Name="afstandtext" Text="{Binding currentDistance}" Margin="50,0,0,0" FontSize="26"/>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Name="afstandtext" Text="{Binding currentDistance,Mode=TwoWay}" Margin="50,0,0,0" FontSize="26"/>
         </StackPanel>
 
         <StackPanel Name="SpeedText" Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <TextBlock Text="{Binding currentSpeed}" Margin="60,0,0,0" FontSize="26"/>
+            <TextBlock Text="{Binding currentSpeed,Mode=TwoWay}" Margin="60,0,0,0" FontSize="26" Name="speedblock"/>
         </StackPanel>
         
         <StackPanel Grid.Row="4" Grid.ColumnSpan="6" VerticalAlignment="Top">
@@ -73,7 +73,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Name="TimeBlock" Text="{Binding stopwatchTime}" FontSize="26"/>
+            <TextBlock Name="TimeBlock" Text="{Binding stopwatchTime,Mode=TwoWay}" FontSize="26"/>
         </StackPanel>
 
         <StackPanel  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal">

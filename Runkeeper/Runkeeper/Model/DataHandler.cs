@@ -72,7 +72,6 @@ namespace Runkeeper
                         string[] items = list[i].Split('|');
                         Geopoint point = new Geopoint(new BasicGeoposition() { Latitude = Double.Parse(items[0]), Longitude = Double.Parse(items[1]) });
                         walkedRoutes[walkedRoutes.Count - 1].route.Add(new DataStamp(point, DateTime.Parse(items[2]), Double.Parse(items[3]), Double.Parse(items[4])));
-                        System.Diagnostics.Debug.WriteLine(walkedRoutes);
                     }
                     else
                     {
@@ -82,7 +81,6 @@ namespace Runkeeper
                         walkedRoutes[walkedRoutes.Count - 1].date = DateTime.Parse(items[2]);
                     }
                 }
-                Debug.WriteLine(walkedRoutes);
             }
         }
 
@@ -110,7 +108,6 @@ namespace Runkeeper
         {
             MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteAsync(start, end);
             double distance = 0;
-	        Debug.WriteLine(start + " " + end);
             if(routeResult.Route != null)
             {
                 MapRoute b = routeResult.Route;
@@ -118,7 +115,6 @@ namespace Runkeeper
                 currentDistance = (double.Parse(currentDistance) + distance).ToString();
             }
             NotifyPropertyChanged(nameof(currentDistance));
-            System.Diagnostics.Debug.WriteLine("Afstand " + currentDistance);
             return distance;
 
         }
