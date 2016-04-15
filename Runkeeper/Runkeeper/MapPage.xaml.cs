@@ -121,11 +121,8 @@ namespace Runkeeper
                         {
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                if (Popup1.IsOpen == false)
-                                {
-                                    Popup1.IsOpen = true;
                                     MainGrid.Opacity = 0.10;
-                                }
+                                    Popup1.IsOpen = true;
                             });
                                 break;
                         }
@@ -133,8 +130,8 @@ namespace Runkeeper
                             {
                                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
-                                    Popup1.IsOpen = false;
                                     MainGrid.Opacity = 1.0;
+                                    Popup1.IsOpen = false;
                                 });
                                 break;
                             }
